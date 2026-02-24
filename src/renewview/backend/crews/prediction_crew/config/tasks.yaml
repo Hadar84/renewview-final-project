@@ -1,0 +1,84 @@
+# Crew 2 — Feasibility Prediction Crew Tasks
+
+contract_validation_task:
+  description: >
+    Validate the dataset before ML processing:
+
+    1. Load data/dataset_contract.json and data/clean_solar_data.csv
+    2. Check every column: name exists, type matches, values in range
+    3. Check null policy compliance
+    4. Check row count within expected range
+    5. Verify target column and feature columns are present
+    6. If validation fails: produce error report and STOP
+    7. If passes: confirm dataset is ready for feature engineering
+
+  expected_output: >
+    Validation result: PASS or FAIL with details. If PASS, confirm
+    feature columns and target variable for downstream agents.
+  agent: contract_validator_agent
+
+feature_engineering_task:
+  description: >
+    Prepare ML-ready features:
+
+    1. Load data/clean_solar_data.csv
+    2. Create derived features:
+       - solar_cloud_ratio: ghi / (cloud_cover + 1)
+       - temp_humidity_index: temperature * (1 - humidity/100)
+       - grid_accessibility_score: 1 / (nearest_substation_km + 1)
+       - irradiance_consistency: dni / (ghi + 0.1)
+    3. One-hot encode: country, site_type
+    4. Scale numerics with StandardScaler
+    5. Split: 70% train, 15% val, 15% test (stratified on viability_class)
+    6. Save: data/features/X_train.csv, X_val.csv, X_test.csv,
+       y_train.csv, y_val.csv, y_test.csv, models/feature_pipeline.joblib
+    7. Save reports/feature_engineering_report.md
+
+  expected_output: >
+    Train/val/test CSV splits, serialized feature pipeline, and report
+    documenting derived features, encoding, and class distribution.
+  agent: feature_engineering_agent
+
+model_training_task:
+  description: >
+    Train and select the best classification model:
+
+    1. Load train and validation feature sets
+    2. Train: Random Forest, Gradient Boosting (per proposal: RF vs GB)
+    3. Compute per model: accuracy, precision, recall, F1 (macro), per-class
+    4. Select top performer by macro F1
+    5. Tune with GridSearchCV (3-fold):
+       - RF: n_estimators [100, 200], max_depth [10, 20, None]
+       - GB: n_estimators [100, 200], learning_rate [0.05, 0.1]
+    6. Save: models/best_model.joblib, models/training_results.json
+    7. Save reports/model_comparison_report.md
+
+  expected_output: >
+    Serialized best model, JSON with all metrics, and comparison report
+    explaining why the selected model wins. Include best hyperparameters.
+  agent: model_training_agent
+
+model_evaluation_task:
+  description: >
+    Evaluate and document the final model:
+
+    1. Load best model and held-out test set
+    2. Generate: classification report, confusion matrix, feature importance,
+       ROC curves (one-vs-rest)
+    3. Save figures to reports/figures/
+    4. Business interpretation: what each class means for landowners,
+       cost of false positives vs false negatives
+    5. Write reports/final_evaluation_report.md
+    6. Write reports/model_card.md including:
+       - Model name, version, type
+       - Intended use and users
+       - Training data description
+       - Performance metrics (overall + per region)
+       - Limitations and bias (data-rich region bias per proposal ethics)
+       - Ethical considerations (agricultural land conversion trade-offs)
+
+  expected_output: >
+    Evaluation report at reports/final_evaluation_report.md with all
+    metrics and figures. Model card at reports/model_card.md per ML
+    best practices. Figures in reports/figures/.
+  agent: model_evaluation_agent

@@ -1,0 +1,77 @@
+# Crew 1 — Land Intelligence Crew Tasks
+
+data_ingestion_task:
+  description: >
+    Collect solar energy data for Southern Europe:
+
+    1. Use nasa_power_solar_data to fetch annual average GHI, DNI, temperature,
+       humidity, wind_speed, precipitation, cloud_cover for 200–300 sample
+       points across Portugal, Spain, Greece, Italy.
+    2. Use osm_solar_farms to fetch confirmed solar farm locations (PT, ES, GR, IT).
+    3. Use grid_distance_calculator to compute haversine distance from each
+       sample point to the nearest solar farm.
+    4. Combine into a single CSV with columns: latitude, longitude, country,
+       ghi, dni, temperature, humidity, wind_speed, precipitation, cloud_cover,
+       nearest_solar_farm_km, nearest_substation_km, site_type, latitude_zone.
+    5. Save as data/raw_solar_data.csv.
+
+  expected_output: >
+    CSV file at data/raw_solar_data.csv with 200–300 rows and all specified
+    columns. Brief summary: points per country, date range, any API errors.
+  agent: data_ingestion_agent
+
+data_cleaning_task:
+  description: >
+    Clean and label the raw dataset:
+
+    1. Load data/raw_solar_data.csv
+    2. Drop rows with >30% nulls; impute others with regional median
+    3. Validate: GHI 0–8, temperature -10 to 50, humidity 0–100, wind 0–30
+    4. Remove duplicate coordinates (0.01 degree tolerance)
+    5. Construct 3-class target 'viability_class':
+       - High: GHI >= 4.5 AND nearest_solar_farm_km <= 10
+       - Medium: GHI >= 3.5 AND nearest_solar_farm_km <= 20
+       - Low: everything else
+    6. Save data/clean_solar_data.csv
+    7. Save reports/cleaning_report.md
+
+  expected_output: >
+    Cleaned CSV at data/clean_solar_data.csv with viability_class column.
+    Markdown report at reports/cleaning_report.md documenting all steps.
+  agent: data_cleaning_agent
+
+eda_task:
+  description: >
+    Perform EDA on cleaned data:
+
+    1. Load data/clean_solar_data.csv
+    2. Generate and save figures to reports/figures/:
+       - GHI distribution by country (histogram + boxplot)
+       - Correlation heatmap of numeric features
+       - Viability class distribution bar chart
+       - GHI vs nearest_solar_farm_km scatter (colored by viability)
+       - Feature distributions by viability (violin plots)
+    3. Compute summary stats per country and per viability class
+    4. Identify top 3 most predictive features
+    5. Write reports/eda_report.md with findings
+
+  expected_output: >
+    EDA report at reports/eda_report.md with figure references,
+    summary stats, and 3 key insights. Figures in reports/figures/.
+  agent: eda_agent
+
+dataset_contract_task:
+  description: >
+    Generate a dataset contract for ML pipeline handoff:
+
+    1. Load data/clean_solar_data.csv
+    2. Create JSON schema: column names, types, ranges, null policy,
+       row count range, target column, feature columns list
+    3. Validate current dataset against contract
+    4. Save data/dataset_contract.json
+    5. Save reports/contract_validation.md
+
+  expected_output: >
+    JSON contract at data/dataset_contract.json and validation report
+    at reports/contract_validation.md confirming dataset is ML-ready.
+  agent: dataset_contract_agent

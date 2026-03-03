@@ -7,11 +7,13 @@ Includes optional live NASA POWER data fetch.
 
 import json
 
+import pandas as pd
 import requests
 import streamlit as st
 
 from renewview.config.settings import NASA_POWER_PARAMS
 from renewview.frontend.assets.i18n import t
+from renewview.frontend.assets.styles import nasa_card_header_html
 
 
 def _fetch_nasa_power(latitude: float, longitude: float) -> dict | None:
@@ -112,7 +114,7 @@ def render_site_inputs(lang: str = "EN") -> dict:
 
     # ── Climate Data Section ──────────────────────────────
     st.divider()
-    st.header(t("climate_data", lang))
+    st.markdown(nasa_card_header_html(t("climate_data", lang)), unsafe_allow_html=True)
 
     # NASA POWER fetch
     if st.button(t("fetch_solar_data", lang), use_container_width=True):
@@ -173,6 +175,11 @@ def render_site_inputs(lang: str = "EN") -> dict:
             value=float(nasa.get("cloud_cover", 40.0)), step=1.0,
             format="%.1f",
         )
+
+    # ── Map Preview ────────────────────────────────────────
+    st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
+    st.caption(t("map_preview", lang))
+    st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=5, height=220)
 
     return {
         "country": country,

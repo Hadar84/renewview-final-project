@@ -8,6 +8,7 @@ import streamlit as st
 
 from renewview.backend.services.prediction_service import PredictionService
 from renewview.frontend.assets.i18n import t
+from renewview.frontend.assets.styles import THEME_CSS, welcome_hero_html
 from renewview.frontend.components.results_display import render_results
 from renewview.frontend.components.site_inputs import render_site_inputs
 
@@ -17,6 +18,9 @@ st.set_page_config(
     page_icon="☀️",
     layout="wide",
 )
+
+# ── Inject Theme CSS ────────────────────────────────────────
+st.markdown(THEME_CSS, unsafe_allow_html=True)
 
 # ── Language Selector ───────────────────────────────────────
 lang = st.sidebar.selectbox(
@@ -37,11 +41,15 @@ with st.sidebar:
     st.caption(t("sidebar_built_with", lang))
     st.caption(t("sidebar_course", lang))
 
-# ── Header ──────────────────────────────────────────────────
-st.title(t("title", lang))
-st.subheader(t("subtitle", lang))
-st.markdown(t("intro", lang))
-st.divider()
+# ── Welcome Hero ─────────────────────────────────────────────
+st.markdown(
+    welcome_hero_html(
+        title="☀️ RenewView",
+        subtitle=t("subtitle", lang),
+        intro=t("intro", lang),
+    ),
+    unsafe_allow_html=True,
+)
 
 # ── Tabs ────────────────────────────────────────────────────
 tab_assess, tab_about = st.tabs([t("tab_assessment", lang), t("tab_about", lang)])
@@ -50,7 +58,7 @@ with tab_assess:
     # ── Input Form ──────────────────────────────────────────
     inputs = render_site_inputs(lang)
 
-    st.divider()
+    st.markdown('<div style="margin-top:1.5rem;"></div>', unsafe_allow_html=True)
 
     # ── Assessment ──────────────────────────────────────────
     if st.button(t("run_assessment", lang), type="primary", use_container_width=True):

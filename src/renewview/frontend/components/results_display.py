@@ -4,51 +4,101 @@ import pandas as pd
 import streamlit as st
 
 from renewview.frontend.assets.i18n import t
-
-
-EMOJI_MAP = {"High": "✅", "Medium": "⚠️", "Low": "🔻", "Not Viable": "❌"}
+from renewview.frontend.assets.styles import (
+    gate_pass_html,
+    metric_card_html,
+    not_viable_card_html,
+    svg_gauge_html,
+)
 
 
 def render_results(result: dict, lang: str = "EN") -> None:
-    """Render assessment results."""
+    """Render assessment results with dark solar-tech styling."""
 
-    st.header(t("results", lang))
+    st.markdown('<div style="margin-top: 1.5rem;"></div>', unsafe_allow_html=True)
 
     viability = result["viability_class"]
-    emoji = EMOJI_MAP.get(viability, "❓")
 
     # ── Not Viable (eliminated by gate) ─────────────────────
     if viability == "Not Viable":
-        st.error(f"{emoji} {t('not_viable_msg', lang)}")
-
-        if result.get("eliminated_by"):
-            st.markdown(f"**{t('eliminated_by', lang)}:** {result['eliminated_by']}")
-        if result.get("reason"):
-            st.markdown(f"**{t('reason', lang)}:** {result['reason']}")
-        if result.get("redirect_to"):
-            st.info(f"**{t('redirect', lang)}:** {result['redirect_to']}")
+        st.markdown(
+            not_viable_card_html(
+                gate=result.get("eliminated_by", ""),
+                reason=result.get("reason", ""),
+                redirect=result.get("redirect_to"),
+            ),
+            unsafe_allow_html=True,
+        )
         return
 
-    # ── Viable results ──────────────────────────────────────
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric(t("viability", lang), f"{emoji} {viability}")
-    col2.metric(t("score", lang), f"{result['score']:.0f}%")
-    col3.metric(t("annual_kwh", lang), f"{result['annual_kwh']:,.0f}")
-    col4.metric(t("annual_revenue", lang), f"€{result['revenue_eur']:,.0f}")
+    # ── SVG Gauge — centered at top ─────────────────────────
+    st.markdown(
+        svg_gauge_html(result["score"], viability),
+        unsafe_allow_html=True,
+    )
+
+    # ── Primary metrics — kWh + Revenue ─────────────────────
+    m1, m2 = st.columns(2)
+    with m1:
+        st.markdown(
+            metric_card_html(
+                t("annual_kwh", lang),
+                f'{result["annual_kwh"]:,.0f}',
+                icon="⚡",
+            ),
+            unsafe_allow_html=True,
+        )
+    with m2:
+        st.markdown(
+            metric_card_html(
+                t("annual_revenue", lang),
+                f'€{result["revenue_eur"]:,.0f}',
+                icon="💶",
+            ),
+            unsafe_allow_html=True,
+        )
+
+    # ── Secondary metrics — GHI + Prediction Source ─────────
+    st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
+    if result.get("ghi_used"):
+        g1, g2 = st.columns(2)
+        with g1:
+            st.markdown(
+                metric_card_html(
+                    "GHI USED",
+                    f'{result["ghi_used"]:.2f} kWh/m²/day',
+                    icon="☀️",
+                ),
+                unsafe_allow_html=True,
+            )
+        with g2:
+            model_label = "ML MODEL" if result.get("used_model") else "HEURISTIC"
+            model_icon = "🤖" if result.get("used_model") else "📐"
+            st.markdown(
+                metric_card_html(
+                    "PREDICTION SOURCE",
+                    model_label,
+                    icon=model_icon,
+                ),
+                unsafe_allow_html=True,
+            )
 
     # ── Map ─────────────────────────────────────────────────
-    if result.get("ghi_used"):
-        lat = st.session_state.get("_last_lat")
-        lon = st.session_state.get("_last_lon")
-        if lat is not None and lon is not None:
-            st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}), zoom=6)
+    st.markdown('<div style="margin-top: 1rem;"></div>', unsafe_allow_html=True)
+    lat = st.session_state.get("_last_lat")
+    lon = st.session_state.get("_last_lon")
+    if lat is not None and lon is not None:
+        st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}), zoom=6)
 
-    # ── Gate pass details ───────────────────────────────────
-    with st.expander(f"✅ {t('gates_passed', lang)}", expanded=False):
-        st.markdown(f"- {t('gate_detail_g1', lang)}")
-        st.markdown(f"- {t('gate_detail_g2', lang)}")
-        st.markdown(f"- {t('gate_detail_g3', lang)}")
-        st.markdown(f"- {t('gate_detail_g4', lang)}")
+    # ── Gate pass details (expandable) ──────────────────────
+    with st.expander(t("gate_detail_g1", lang).split(":")[0].strip() + " — Pre-screening Gates", expanded=False):
+        gates = [
+            t("gate_detail_g1", lang),
+            t("gate_detail_g2", lang),
+            t("gate_detail_g3", lang),
+            t("gate_detail_g4", lang),
+        ]
+        st.markdown(gate_pass_html(gates), unsafe_allow_html=True)
 
     # Flags
     if result.get("flags"):
@@ -56,17 +106,16 @@ def render_results(result: dict, lang: str = "EN") -> None:
             if flag == "small_commercial":
                 st.info("📌 Small commercial parcel (<5 ha) — limited scale")
 
-    # Model indicator
-    if result.get("used_model"):
-        st.caption("🤖 Prediction from trained ML model")
-    else:
-        st.caption("📐 Heuristic estimate — run pipeline for ML predictions")
-
-    # Connect with installer (Medium / High only)
+    # ── Installer CTA (Medium / High only) ──────────────────
     if viability in ("High", "Medium"):
-        st.divider()
+        st.markdown('<div style="margin-top: 1rem;"></div>', unsafe_allow_html=True)
         st.success(t("connect_installer", lang))
         st.link_button(
             "Find Installers → SolarPower Europe",
             "https://www.solarpowereurope.org/",
+            use_container_width=True,
         )
+
+    # ── Disclaimer ──────────────────────────────────────────
+    st.markdown('<div style="margin-top: 1rem;"></div>', unsafe_allow_html=True)
+    st.caption(t("disclaimer", lang))

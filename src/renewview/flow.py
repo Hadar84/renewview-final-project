@@ -99,15 +99,22 @@ class RenewViewFlow(Flow[RenewViewState]):
         try:
             with open(contract_path) as f:
                 contract = json.load(f)
-            required = ["columns", "target_column", "feature_columns"]
-            missing = [k for k in required if k not in contract]
-            if missing:
-                print(f"  ✗ Contract missing: {missing}")
+
+            # Contract is JSON Schema: must have 'properties' and 'required'
+            if "properties" not in contract or "required" not in contract:
+                print("  ✗ Contract missing 'properties' or 'required'")
                 self.state.contract_valid = False
                 return "validation_failed"
 
+            # Verify target column is declared
+            if "viability_class" not in contract["properties"]:
+                print("  ✗ Contract missing target column 'viability_class'")
+                self.state.contract_valid = False
+                return "validation_failed"
+
+            col_count = len(contract["properties"])
+            print(f"  ✓ Dataset contract valid ({col_count} columns defined).")
             self.state.contract_valid = True
-            print("  ✓ Dataset contract valid.")
             return "validation_passed"
         except (json.JSONDecodeError, IOError) as e:
             print(f"  ✗ Validation error: {e}")

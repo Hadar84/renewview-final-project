@@ -1,5 +1,6 @@
 """Results Display Component — shows viability verdict, score, kWh, € revenue."""
 
+import pandas as pd
 import streamlit as st
 
 from renewview.frontend.assets.i18n import t
@@ -34,6 +35,20 @@ def render_results(result: dict, lang: str = "EN") -> None:
     col2.metric(t("score", lang), f"{result['score']:.0f}%")
     col3.metric(t("annual_kwh", lang), f"{result['annual_kwh']:,.0f}")
     col4.metric(t("annual_revenue", lang), f"€{result['revenue_eur']:,.0f}")
+
+    # ── Map ─────────────────────────────────────────────────
+    if result.get("ghi_used"):
+        lat = st.session_state.get("_last_lat")
+        lon = st.session_state.get("_last_lon")
+        if lat is not None and lon is not None:
+            st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}), zoom=6)
+
+    # ── Gate pass details ───────────────────────────────────
+    with st.expander(f"✅ {t('gates_passed', lang)}", expanded=False):
+        st.markdown(f"- {t('gate_detail_g1', lang)}")
+        st.markdown(f"- {t('gate_detail_g2', lang)}")
+        st.markdown(f"- {t('gate_detail_g3', lang)}")
+        st.markdown(f"- {t('gate_detail_g4', lang)}")
 
     # Flags
     if result.get("flags"):

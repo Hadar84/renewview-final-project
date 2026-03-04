@@ -13,7 +13,7 @@ import streamlit as st
 
 from renewview.config.settings import NASA_POWER_PARAMS
 from renewview.frontend.assets.i18n import t
-from renewview.frontend.assets.styles import nasa_card_header_html
+from renewview.frontend.assets.styles import nasa_card_header_html, section_header_html
 
 
 def _fetch_nasa_power(latitude: float, longitude: float) -> dict | None:
@@ -47,44 +47,55 @@ def _fetch_nasa_power(latitude: float, longitude: float) -> dict | None:
 def render_site_inputs(lang: str = "EN") -> dict:
     """Render adaptive input form based on site type. Returns input dict."""
 
-    col1, col2 = st.columns(2)
+    # ══════════════════════════════════════════════════════════
+    # SECTION A — Location
+    # ══════════════════════════════════════════════════════════
+    st.markdown(section_header_html(t("location", lang)), unsafe_allow_html=True)
 
-    with col1:
-        st.header(t("location", lang))
-
+    loc1, loc2, loc3 = st.columns(3)
+    with loc1:
         country = st.selectbox(
             t("country", lang),
             ["Portugal", "Spain", "Greece", "Italy"],
         )
-
+    with loc2:
         latitude = st.number_input(
             t("latitude", lang), min_value=34.0, max_value=44.0,
             value=38.7, step=0.1,
         )
+    with loc3:
         longitude = st.number_input(
             t("longitude", lang), min_value=-10.0, max_value=30.0,
             value=-9.1, step=0.1,
         )
 
-    with col2:
-        st.header(t("details", lang))
+    # Map preview — directly below location inputs
+    st.caption(t("map_preview", lang))
+    st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=5, height=220)
 
-        site_type_labels = {
-            t("ground_parcel", lang): "ground_parcel",
-            t("commercial_rooftop", lang): "commercial_rooftop",
-            t("parking_structure", lang): "parking_structure",
-        }
-        site_label = st.selectbox(t("site_type", lang), list(site_type_labels.keys()))
-        site_type = site_type_labels[site_label]
+    # ══════════════════════════════════════════════════════════
+    # SECTION B — Site Details
+    # ══════════════════════════════════════════════════════════
+    st.markdown(section_header_html(t("details", lang)), unsafe_allow_html=True)
 
-        # ── Adaptive fields per site type ───────────────────
-        parcel_size_ha = 0.0
-        usable_m2 = 0.0
-        terrain = "flat"
-        land_status = "agricultural"
-        grid_distance_km = 5.0
+    site_type_labels = {
+        t("ground_parcel", lang): "ground_parcel",
+        t("commercial_rooftop", lang): "commercial_rooftop",
+        t("parking_structure", lang): "parking_structure",
+    }
+    site_label = st.selectbox(t("site_type", lang), list(site_type_labels.keys()))
+    site_type = site_type_labels[site_label]
 
-        if site_type == "ground_parcel":
+    # ── Adaptive fields per site type ─────────────────────
+    parcel_size_ha = 0.0
+    usable_m2 = 0.0
+    terrain = "flat"
+    land_status = "agricultural"
+    grid_distance_km = 5.0
+
+    if site_type == "ground_parcel":
+        d1, d2 = st.columns(2)
+        with d1:
             parcel_size_ha = st.number_input(
                 t("parcel_size", lang), min_value=0.1, max_value=500.0,
                 value=5.0, step=0.5,
@@ -93,6 +104,7 @@ def render_site_inputs(lang: str = "EN") -> dict:
                 t("terrain", lang),
                 ["flat", "gentle_slope", "steep_slope", "hilly"],
             )
+        with d2:
             land_status = st.selectbox(
                 t("land_status", lang),
                 ["agricultural", "industrial", "unused", "wetland",
@@ -101,22 +113,24 @@ def render_site_inputs(lang: str = "EN") -> dict:
             grid_distance_km = st.slider(
                 t("grid_distance", lang), 0.0, 50.0, 5.0, 0.5,
             )
-        else:
-            # Rooftop / Parking — ask for usable m², skip terrain
+    else:
+        # Rooftop / Parking — ask for usable m², skip terrain
+        d1, d2 = st.columns(2)
+        with d1:
             usable_m2 = st.number_input(
                 t("usable_area", lang), min_value=10.0, max_value=50000.0,
                 value=500.0, step=50.0,
             )
+        with d2:
             grid_distance_km = st.slider(
                 t("grid_distance", lang), 0.0, 20.0, 2.0, 0.5,
             )
-            land_status = "commercial"
+        land_status = "commercial"
 
-    # ── Climate Data Section ──────────────────────────────
-    st.divider()
+    # ── Climate Data ──────────────────────────────────────
+    st.markdown('<div style="margin-top: 0.5rem;"></div>', unsafe_allow_html=True)
     st.markdown(nasa_card_header_html(t("climate_data", lang)), unsafe_allow_html=True)
 
-    # NASA POWER fetch
     if st.button(t("fetch_solar_data", lang), use_container_width=True):
         with st.spinner(t("fetching_data", lang)):
             nasa_data = _fetch_nasa_power(latitude, longitude)
@@ -126,7 +140,6 @@ def render_site_inputs(lang: str = "EN") -> dict:
         else:
             st.warning(t("solar_data_error", lang))
 
-    # Use fetched data as defaults, or sensible fallbacks
     nasa = st.session_state.get("nasa_data", {})
     st.caption(t("climate_manual_note", lang))
 
@@ -175,11 +188,6 @@ def render_site_inputs(lang: str = "EN") -> dict:
             value=float(nasa.get("cloud_cover", 40.0)), step=1.0,
             format="%.1f",
         )
-
-    # ── Map Preview ────────────────────────────────────────
-    st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
-    st.caption(t("map_preview", lang))
-    st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=5, height=220)
 
     return {
         "country": country,

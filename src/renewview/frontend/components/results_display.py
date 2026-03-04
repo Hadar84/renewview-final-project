@@ -90,15 +90,14 @@ def render_results(result: dict, lang: str = "EN") -> None:
     if lat is not None and lon is not None:
         st.map(pd.DataFrame({"lat": [lat], "lon": [lon]}), zoom=6)
 
-    # ── Gate pass details (expandable) ──────────────────────
-    with st.expander(t("gate_detail_g1", lang).split(":")[0].strip() + " — Pre-screening Gates", expanded=False):
-        gates = [
-            t("gate_detail_g1", lang),
-            t("gate_detail_g2", lang),
-            t("gate_detail_g3", lang),
-            t("gate_detail_g4", lang),
-        ]
-        st.markdown(gate_pass_html(gates), unsafe_allow_html=True)
+    # ── Gate pass details ──────────────────────────────────
+    gates = [
+        t("gate_detail_g1", lang),
+        t("gate_detail_g2", lang),
+        t("gate_detail_g3", lang),
+        t("gate_detail_g4", lang),
+    ]
+    st.markdown(gate_pass_html(gates), unsafe_allow_html=True)
 
     # Flags
     if result.get("flags"):

@@ -297,8 +297,30 @@ iframe {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 224, 90, 0.45);
 }
+
+/* ── Hide default sidebar navigation ──────────────────── */
+[data-testid='stSidebarNav'] {
+    display: none;
+}
 </style>
 """
+
+
+def section_header_html(title: str) -> str:
+    """Styled section header with green left accent bar."""
+    return f"""
+    <div style="
+        border-left: 3px solid #00e05a;
+        padding: 0.4rem 0 0.4rem 1rem;
+        margin: 1.2rem 0 0.8rem;
+    ">
+        <span style="
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+        ">{title}</span>
+    </div>
+    """
 
 
 def welcome_hero_html(title: str, subtitle: str, intro: str) -> str:
@@ -386,12 +408,12 @@ def svg_gauge_html(score: float, viability: str) -> str:
                     transform="rotate(-90 60 60)"
                     style="transition: stroke-dashoffset 0.8s ease;" />
             <!-- score text -->
-            <text x="60" y="58" text-anchor="middle" dominant-baseline="central"
-                  fill="{arc_color}" font-size="28" font-weight="800"
-                  font-family="sans-serif">{score:.0f}</text>
+            <text x="60" y="56" text-anchor="middle" dominant-baseline="central"
+                  fill="{arc_color}" font-size="26" font-weight="800"
+                  font-family="sans-serif">{score:.0f}%</text>
             <text x="60" y="78" text-anchor="middle"
-                  fill="#8a9a8a" font-size="9" font-weight="600"
-                  font-family="sans-serif" letter-spacing="0.1em">/ 100</text>
+                  fill="#8a9a8a" font-size="8" font-weight="700"
+                  font-family="sans-serif" letter-spacing="0.15em">SCORE</text>
         </svg>
         <!-- viability pill badge -->
         <div style="

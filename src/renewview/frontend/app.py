@@ -70,6 +70,16 @@ elif st.session_state.step == 2:
         st.session_state.step = 1
         st.rerun()
 
+    st.markdown(
+        '<div style="text-align:center; margin-bottom:1rem;">'
+        '<span style="background:rgba(0,224,90,0.1); color:#00e05a; '
+        'padding:0.3rem 1rem; border-radius:20px; font-size:0.72rem; '
+        'font-weight:700; letter-spacing:0.1em; text-transform:uppercase; '
+        'border:1px solid rgba(0,224,90,0.25);">'
+        'STEP 2 OF 3 — Site Details</span></div>',
+        unsafe_allow_html=True,
+    )
+
     tab_assess, tab_about = st.tabs([t("tab_assessment", lang), t("tab_about", lang)])
 
     with tab_assess:

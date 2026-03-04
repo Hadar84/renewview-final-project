@@ -97,7 +97,7 @@ def render_results(result: dict, lang: str = "EN") -> None:
         t("gate_detail_g3", lang),
         t("gate_detail_g4", lang),
     ]
-    st.markdown(gate_pass_html(gates), unsafe_allow_html=True)
+    st.html(gate_pass_html(gates))
 
     # Flags
     if result.get("flags"):
@@ -107,14 +107,23 @@ def render_results(result: dict, lang: str = "EN") -> None:
 
     # ── Installer CTA (Medium / High only) ──────────────────
     if viability in ("High", "Medium"):
-        st.markdown('<div style="margin-top: 1rem;"></div>', unsafe_allow_html=True)
-        st.success(t("connect_installer", lang))
-        st.link_button(
-            "Find Installers → SolarPower Europe",
-            "https://www.solarpowereurope.org/",
-            use_container_width=True,
+        st.markdown(
+            '<a href="https://www.solarpowereurope.org/" target="_blank" '
+            'style="text-decoration:none; display:block;">'
+            '<div style="'
+            'background:linear-gradient(135deg, #00c04a 0%, #00e05a 100%);'
+            'color:#0a1a0f;'
+            'text-align:center;'
+            'padding:1.2rem;'
+            'border-radius:12px;'
+            'font-size:1.05rem;'
+            'font-weight:700;'
+            'margin-top:1.2rem;'
+            'cursor:pointer;'
+            'box-shadow:0 0 20px rgba(0,224,90,0.2);'
+            'transition:box-shadow 0.2s ease;'
+            '">'
+            '🔗 Get a Quote — Connect with Regional Installer'
+            '</div></a>',
+            unsafe_allow_html=True,
         )
-
-    # ── Disclaimer ──────────────────────────────────────────
-    st.markdown('<div style="margin-top: 1rem;"></div>', unsafe_allow_html=True)
-    st.caption(t("disclaimer", lang))

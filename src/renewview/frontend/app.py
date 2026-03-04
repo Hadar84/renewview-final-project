@@ -55,12 +55,13 @@ if st.session_state.step == 1:
         ),
         unsafe_allow_html=True,
     )
+
+    st.markdown('<div style="margin-top:1.5rem;"></div>', unsafe_allow_html=True)
     if st.button(t("start_assessment", lang), type="primary", use_container_width=True):
         st.session_state.step = 2
         st.rerun()
 
-    # ── Footer ──────────────────────────────────────────────
-    st.divider()
+    st.markdown('<div style="margin-top:2rem;"></div>', unsafe_allow_html=True)
     st.caption(t("disclaimer", lang))
 
 # ── Step 2 — Input Form + About ─────────────────────────────

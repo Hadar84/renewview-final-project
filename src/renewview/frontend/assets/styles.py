@@ -302,6 +302,13 @@ iframe {
 [data-testid='stSidebarNav'] {
     display: none;
 }
+
+/* ── Dark text on primary green buttons ───────────────── */
+button[kind='primary'] p,
+.stButton button[data-testid='stBaseButton-primary'] p {
+    color: #0a1a0f !important;
+    font-weight: 700 !important;
+}
 </style>
 """
 
@@ -324,28 +331,49 @@ def section_header_html(title: str) -> str:
 
 
 def welcome_hero_html(title: str, subtitle: str, intro: str) -> str:
-    """HTML block for the welcome hero section at the top of the app."""
+    """HTML block for the welcome hero section with solar panel background."""
+    bg_url = "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80"
     return f"""
-    <div style="text-align:center; padding:2.5rem 1rem 1rem;">
-        <h1 style="
-            font-size:2.8rem;
-            font-weight:800;
-            color:#00e05a !important;
-            margin-bottom:0.3rem;
-            text-shadow:0 0 40px rgba(0,224,90,0.25);
-        ">{title}</h1>
-        <p style="
-            color:#8a9a8a !important;
-            font-size:1.1rem;
-            margin-top:0.2rem;
-            margin-bottom:0.3rem;
-        ">{subtitle}</p>
-        <p style="
-            color:#5a6a5a !important;
-            font-size:0.88rem;
-        ">{intro}</p>
+    <div style="
+        position:relative;
+        background:url('{bg_url}') center/cover no-repeat;
+        border-radius:16px;
+        overflow:hidden;
+        margin:-1rem -1rem 0;
+        padding:0;
+    ">
+        <!-- dark gradient overlay -->
+        <div style="
+            background:linear-gradient(
+                180deg,
+                rgba(10,26,15,0.82) 0%,
+                rgba(10,26,15,0.90) 60%,
+                rgba(10,26,15,0.95) 100%
+            );
+            padding:4rem 2rem 3rem;
+            text-align:center;
+        ">
+            <h1 style="
+                font-size:3rem;
+                font-weight:800;
+                color:#00e05a !important;
+                margin-bottom:0.4rem;
+                text-shadow:0 0 50px rgba(0,224,90,0.35);
+            ">{title}</h1>
+            <p style="
+                color:#c0d0c0 !important;
+                font-size:1.15rem;
+                margin-top:0.3rem;
+                margin-bottom:0.5rem;
+            ">{subtitle}</p>
+            <p style="
+                color:#8a9a8a !important;
+                font-size:0.92rem;
+                max-width:600px;
+                margin:0 auto;
+            ">{intro}</p>
+        </div>
     </div>
-    <hr style="border-color:rgba(0,224,90,0.12); margin:0.5rem 0 1.5rem;">
     """
 
 

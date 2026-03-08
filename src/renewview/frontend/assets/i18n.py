@@ -91,6 +91,12 @@ TRANSLATIONS = {
         "draw_parcel": "Draw your parcel boundary on the map (polygon tool)",
         "polygon_area_detected": "Parcel area detected from drawing",
         "map_instructions": "Use the polygon tool on the left to outline your parcel. Click vertices, then close the shape.",
+        # Auto-detect site properties
+        "auto_detect_btn": "Auto-detect Site Properties",
+        "detecting_properties": "Detecting grid distance and terrain...",
+        "detection_success": "Auto-detected",
+        "detection_grid_fail": "Could not detect grid distance (no substations found nearby).",
+        "detection_terrain_fail": "Elevation API unavailable — terrain estimated from country.",
         # About page
         "about_problem": "## Problem",
         "about_problem_text": (
@@ -208,6 +214,11 @@ TRANSLATIONS = {
         "draw_parcel": "Desenhe o limite da parcela no mapa (ferramenta polígono)",
         "polygon_area_detected": "Área da parcela detetada a partir do desenho",
         "map_instructions": "Use a ferramenta de polígono à esquerda para delinear a sua parcela.",
+        "auto_detect_btn": "Detetar Propriedades do Local",
+        "detecting_properties": "A detetar distância à rede e terreno...",
+        "detection_success": "Detetado automaticamente",
+        "detection_grid_fail": "Não foi possível detetar a distância à rede (sem subestações próximas).",
+        "detection_terrain_fail": "API de elevação indisponível — terreno estimado pelo país.",
         "about_problem": "## Problema",
         "about_problem_text": (
             "A UE pretende 700 GW de solar até 2030, mas os proprietários no Sul da Europa "
@@ -324,6 +335,11 @@ TRANSLATIONS = {
         "draw_parcel": "Dibuje el límite de la parcela en el mapa (herramienta polígono)",
         "polygon_area_detected": "Área de parcela detectada desde el dibujo",
         "map_instructions": "Use la herramienta de polígono a la izquierda para delinear su parcela.",
+        "auto_detect_btn": "Detectar Propiedades del Sitio",
+        "detecting_properties": "Detectando distancia a la red y terreno...",
+        "detection_success": "Detectado automáticamente",
+        "detection_grid_fail": "No se pudo detectar la distancia a la red (sin subestaciones cercanas).",
+        "detection_terrain_fail": "API de elevación no disponible — terreno estimado por país.",
         "about_problem": "## Problema",
         "about_problem_text": (
             "La UE apunta a 700 GW de solar para 2030, pero los propietarios en el sur de Europa "
@@ -440,6 +456,11 @@ TRANSLATIONS = {
         "draw_parcel": "Σχεδιάστε το όριο του αγροτεμαχίου στον χάρτη (εργαλείο πολυγώνου)",
         "polygon_area_detected": "Εντοπίστηκε εμβαδόν αγροτεμαχίου από το σχέδιο",
         "map_instructions": "Χρησιμοποιήστε το εργαλείο πολυγώνου αριστερά για να σκιαγραφήσετε το αγροτεμάχιό σας.",
+        "auto_detect_btn": "Αυτόματη Ανίχνευση Ιδιοτήτων",
+        "detecting_properties": "Ανίχνευση απόστασης δικτύου και εδάφους...",
+        "detection_success": "Αυτόματη ανίχνευση",
+        "detection_grid_fail": "Δεν ήταν δυνατή η ανίχνευση απόστασης δικτύου (χωρίς κοντινούς υποσταθμούς).",
+        "detection_terrain_fail": "API υψομέτρου μη διαθέσιμο — έδαφος εκτιμήθηκε από τη χώρα.",
         "about_problem": "## Πρόβλημα",
         "about_problem_text": (
             "Η ΕΕ στοχεύει σε 700 GW ηλιακής ενέργειας μέχρι το 2030, αλλά οι ιδιοκτήτες "

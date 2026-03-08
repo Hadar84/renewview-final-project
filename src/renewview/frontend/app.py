@@ -166,7 +166,8 @@ elif st.session_state.step == 3:
     if st.button(t("new_assessment", lang), type="primary", use_container_width=True):
         st.session_state.step = 1
         for _key in ("_result", "_drawn_area_m2", "_drawn_lat", "_drawn_lon",
-                      "_drawn_geojson", "_geo_lat", "_geo_lon", "_geo_display"):
+                      "_drawn_geojson", "_geo_lat", "_geo_lon", "_geo_display",
+                      "_auto_grid_km", "_auto_terrain"):
             st.session_state.pop(_key, None)
         st.rerun()
 

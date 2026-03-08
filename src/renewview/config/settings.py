@@ -82,6 +82,24 @@ NOMINATIM_USER_AGENT = "renewview-solar-assessment/0.1"
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 NOMINATIM_TIMEOUT = 10
 
+# ── Overpass API (substation lookup for grid distance) ───────
+OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+OVERPASS_TIMEOUT = 15
+SUBSTATION_SEARCH_RADIUS_KM = 50
+
+# ── Open-Elevation API (terrain detection) ───────────────────
+OPEN_ELEVATION_URL = "https://api.open-elevation.com/api/v1/lookup"
+OPEN_ELEVATION_TIMEOUT = 10
+ELEVATION_GRID_STEP_DEG = 0.05
+TERRAIN_VARIANCE_FLAT = 20       # variance < 20m → "flat"
+TERRAIN_VARIANCE_HILLY = 100     # variance 20–100m → "hilly", >100m → "mountainous"
+TERRAIN_COUNTRY_FALLBACK = {
+    "Portugal": "hilly",
+    "Spain": "hilly",
+    "Greece": "hilly",
+    "Italy": "mountainous",
+}
+
 # ── Map Display ──────────────────────────────────────────────
 MAP_DEFAULT_ZOOM = 11
 MAP_DRAW_ZOOM = 15

@@ -17,12 +17,21 @@ from shapely.ops import transform
 from streamlit_folium import st_folium
 
 from renewview.config.settings import (
+    ELEVATION_GRID_STEP_DEG,
     MAP_DEFAULT_ZOOM,
     MAP_TILE_PROVIDER,
     NASA_POWER_PARAMS,
     NOMINATIM_TIMEOUT,
     NOMINATIM_URL,
     NOMINATIM_USER_AGENT,
+    OPEN_ELEVATION_TIMEOUT,
+    OPEN_ELEVATION_URL,
+    OVERPASS_TIMEOUT,
+    OVERPASS_URL,
+    SUBSTATION_SEARCH_RADIUS_KM,
+    TERRAIN_COUNTRY_FALLBACK,
+    TERRAIN_VARIANCE_FLAT,
+    TERRAIN_VARIANCE_HILLY,
 )
 from renewview.frontend.assets.i18n import t
 from renewview.frontend.assets.styles import nasa_card_header_html, section_header_html
@@ -120,6 +129,78 @@ def _polygon_centroid(coords: list[list[float]]) -> tuple[float, float]:
     polygon = shape(geojson_geom)
     c = polygon.centroid
     return (c.y, c.x)
+
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Haversine distance in km between two lat/lon points."""
+    r = 6371.0
+    la1, lo1, la2, lo2 = map(math.radians, (lat1, lon1, lat2, lon2))
+    dlat, dlon = la2 - la1, lo2 - lo1
+    a = math.sin(dlat / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin(dlon / 2) ** 2
+    return r * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+
+def _detect_grid_distance(lat: float, lon: float) -> float | None:
+    """Query Overpass for nearest substation and return distance in km."""
+    radius_m = int(SUBSTATION_SEARCH_RADIUS_KM * 1000)
+    query = (
+        f"[out:json][timeout:{OVERPASS_TIMEOUT}];"
+        f'node["power"="substation"](around:{radius_m},{lat},{lon});'
+        f"out body;"
+    )
+    try:
+        resp = requests.post(
+            OVERPASS_URL, data={"data": query}, timeout=OVERPASS_TIMEOUT + 5,
+        )
+        resp.raise_for_status()
+        elements = resp.json().get("elements", [])
+        if not elements:
+            return None
+        min_dist = min(
+            _haversine_km(lat, lon, e["lat"], e["lon"]) for e in elements
+        )
+        return round(min_dist, 2)
+    except (requests.exceptions.RequestException, KeyError, ValueError, json.JSONDecodeError):
+        return None
+
+
+def _detect_terrain(lat: float, lon: float, country: str = "") -> str:
+    """Detect terrain type from elevation variance at a 3x3 grid.
+
+    Falls back to country-based estimate if the API is unavailable.
+    """
+    locations = []
+    for dy in (-1, 0, 1):
+        for dx in (-1, 0, 1):
+            locations.append({
+                "latitude": lat + dy * ELEVATION_GRID_STEP_DEG,
+                "longitude": lon + dx * ELEVATION_GRID_STEP_DEG,
+            })
+
+    try:
+        resp = requests.post(
+            OPEN_ELEVATION_URL,
+            json={"locations": locations},
+            timeout=OPEN_ELEVATION_TIMEOUT,
+        )
+        resp.raise_for_status()
+        results = resp.json().get("results", [])
+        elevations = [r["elevation"] for r in results if r.get("elevation") is not None]
+        if len(elevations) < 3:
+            raise ValueError("Too few elevation points")
+
+        mean_elev = sum(elevations) / len(elevations)
+        variance = sum((e - mean_elev) ** 2 for e in elevations) / len(elevations)
+        std_dev = math.sqrt(variance)
+
+        if std_dev < TERRAIN_VARIANCE_FLAT:
+            return "flat"
+        if std_dev < TERRAIN_VARIANCE_HILLY:
+            return "hilly"
+        return "mountainous"
+    except (requests.exceptions.RequestException, KeyError, ValueError, json.JSONDecodeError):
+        # Fallback: estimate terrain from country
+        return TERRAIN_COUNTRY_FALLBACK.get(country, "hilly")
 
 
 def render_site_inputs(lang: str = "EN") -> dict:
@@ -254,6 +335,34 @@ def render_site_inputs(lang: str = "EN") -> dict:
 
     st.caption("\u2190 " + t("map_instructions", lang))
 
+    # ── Auto-detect site properties ───────────────────────────
+    if st.button(t("auto_detect_btn", lang), use_container_width=True):
+        with st.spinner(t("detecting_properties", lang)):
+            grid_dist = _detect_grid_distance(latitude, longitude)
+            terrain_type = _detect_terrain(latitude, longitude, country)
+
+        parts: list[str] = []
+        used_fallback = False
+
+        if grid_dist is not None:
+            st.session_state["_auto_grid_km"] = grid_dist
+            parts.append(f"Grid distance: {grid_dist:.1f} km")
+        else:
+            st.warning(t("detection_grid_fail", lang))
+
+        if terrain_type:
+            st.session_state["_auto_terrain"] = terrain_type
+            # Check if we used the country fallback (API failure)
+            if terrain_type == TERRAIN_COUNTRY_FALLBACK.get(country):
+                used_fallback = True
+            parts.append(f"Terrain: {terrain_type}")
+
+        if used_fallback:
+            st.warning(t("detection_terrain_fail", lang))
+        if parts:
+            st.success(f'{t("detection_success", lang)}: {" | ".join(parts)}')
+            st.rerun()
+
     # ══════════════════════════════════════════════════════════
     # SECTION B — Site Details
     # ══════════════════════════════════════════════════════════
@@ -285,9 +394,13 @@ def render_site_inputs(lang: str = "EN") -> dict:
                 value=round(drawn_area / 10_000, 1) if drawn_area else 5.0,
                 step=0.5,
             )
+            terrain_options = ["flat", "gentle_slope", "steep_slope", "hilly", "mountainous"]
+            auto_terrain = st.session_state.get("_auto_terrain")
+            terrain_idx = terrain_options.index(auto_terrain) if auto_terrain in terrain_options else 0
             terrain = st.selectbox(
                 t("terrain", lang),
-                ["flat", "gentle_slope", "steep_slope", "hilly"],
+                terrain_options,
+                index=terrain_idx,
             )
         with d2:
             land_status = st.selectbox(
@@ -295,8 +408,11 @@ def render_site_inputs(lang: str = "EN") -> dict:
                 ["agricultural", "industrial", "unused", "unknown",
                  "wetland", "protected", "flood_zone"],
             )
+            auto_grid = st.session_state.get("_auto_grid_km")
             grid_distance_km = st.slider(
-                t("grid_distance", lang), 0.0, 50.0, 5.0, 0.5,
+                t("grid_distance", lang), 0.0, 50.0,
+                min(auto_grid, 50.0) if auto_grid is not None else 5.0,
+                0.5,
             )
     else:
         # Rooftop / Parking — ask for usable m², skip terrain
@@ -308,8 +424,11 @@ def render_site_inputs(lang: str = "EN") -> dict:
                 step=50.0,
             )
         with d2:
+            auto_grid_r = st.session_state.get("_auto_grid_km")
             grid_distance_km = st.slider(
-                t("grid_distance", lang), 0.0, 20.0, 2.0, 0.5,
+                t("grid_distance", lang), 0.0, 20.0,
+                min(auto_grid_r, 20.0) if auto_grid_r is not None else 2.0,
+                0.5,
             )
         land_status = "commercial"
 

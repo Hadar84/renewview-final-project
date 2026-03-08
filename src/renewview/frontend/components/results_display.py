@@ -2,6 +2,7 @@
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 
 from renewview.frontend.assets.i18n import t
 from renewview.frontend.assets.styles import (
@@ -97,7 +98,7 @@ def render_results(result: dict, lang: str = "EN") -> None:
         t("gate_detail_g3", lang),
         t("gate_detail_g4", lang),
     ]
-    st.html(gate_pass_html(gates))
+    components.html(gate_pass_html(gates), height=220)
 
     # Flags
     if result.get("flags"):

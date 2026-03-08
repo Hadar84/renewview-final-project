@@ -71,7 +71,7 @@ def render_site_inputs(lang: str = "EN") -> dict:
 
     # Map preview — directly below location inputs
     st.caption(t("map_preview", lang))
-    st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=5, height=220)
+    st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=11, height=220)
 
     # ══════════════════════════════════════════════════════════
     # SECTION B — Site Details

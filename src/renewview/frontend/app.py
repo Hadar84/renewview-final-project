@@ -165,7 +165,9 @@ elif st.session_state.step == 3:
     st.markdown('<div style="margin-top:1.5rem;"></div>', unsafe_allow_html=True)
     if st.button(t("new_assessment", lang), type="primary", use_container_width=True):
         st.session_state.step = 1
-        st.session_state.pop("_result", None)
+        for _key in ("_result", "_drawn_area_m2", "_drawn_lat", "_drawn_lon",
+                      "_drawn_geojson", "_geo_lat", "_geo_lon", "_geo_display"):
+            st.session_state.pop(_key, None)
         st.rerun()
 
     st.divider()

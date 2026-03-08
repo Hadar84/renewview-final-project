@@ -617,8 +617,10 @@ def nasa_card_header_html(title: str = "Climate Data — NASA POWER") -> str:
 
 def gate_pass_html(gates: list[str]) -> str:
     """Generate HTML for gate pass checklist."""
+    icons = ["\U0001f3db\ufe0f", "\u26a1", "\u2600\ufe0f", "\U0001f4d0"]
     items = ""
-    for g in gates:
+    for i, g in enumerate(gates):
+        icon = icons[i] if i < len(icons) else "\u2713"
         items += f"""
         <div style="
             display: flex;
@@ -626,8 +628,9 @@ def gate_pass_html(gates: list[str]) -> str:
             gap: 0.5rem;
             padding: 0.4rem 0;
             color: #8a9a8a;
-            font-size: 0.85rem;
+            font-size: 1rem;
         ">
+            <span style="font-size: 1.1rem;">{icon}</span>
             <span style="color: #00e05a; font-size: 1rem;">&#10003;</span>
             {g}
         </div>

@@ -77,6 +77,16 @@ OSM_COUNTRY_BBOXES = {
     "IT": (36.6, 6.6, 47.1, 18.5),
 }
 
+# ── Nominatim Geocoding (frontend address search) ────────────
+NOMINATIM_USER_AGENT = "renewview-solar-assessment/0.1"
+NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
+NOMINATIM_TIMEOUT = 10
+
+# ── Map Display ──────────────────────────────────────────────
+MAP_DEFAULT_ZOOM = 11
+MAP_DRAW_ZOOM = 15
+MAP_TILE_PROVIDER = "cartodbdark_matter"
+
 # ── Model Training ──────────────────────────────────────────
 TRAIN_SPLIT = 0.70
 VAL_SPLIT = 0.15

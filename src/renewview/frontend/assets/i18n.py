@@ -81,6 +81,16 @@ TRANSLATIONS = {
         "gate_detail_g2": "G2 — Grid distance within 8 km",
         "gate_detail_g3": "G3 — Solar irradiance above 3.5 kWh/m²/day",
         "gate_detail_g4": "G4 — Parcel size adequate",
+        # Address search & polygon drawing
+        "search_address": "Search address",
+        "search_address_placeholder": "e.g. Faro, Portugal",
+        "search_button": "Search",
+        "searching_address": "Searching address...",
+        "address_not_found": "Address not found. Try a different search.",
+        "address_found": "Location updated from address search.",
+        "draw_parcel": "Draw your parcel boundary on the map (polygon tool)",
+        "polygon_area_detected": "Parcel area detected from drawing",
+        "map_instructions": "Use the polygon tool on the left to outline your parcel. Click vertices, then close the shape.",
         # About page
         "about_problem": "## Problem",
         "about_problem_text": (
@@ -189,6 +199,15 @@ TRANSLATIONS = {
         "gate_detail_g2": "G2 — Distância da rede dentro de 8 km",
         "gate_detail_g3": "G3 — Irradiação solar acima de 3,5 kWh/m²/dia",
         "gate_detail_g4": "G4 — Tamanho da parcela adequado",
+        "search_address": "Pesquisar endereço",
+        "search_address_placeholder": "ex. Faro, Portugal",
+        "search_button": "Pesquisar",
+        "searching_address": "A pesquisar endereço...",
+        "address_not_found": "Endereço não encontrado. Tente outra pesquisa.",
+        "address_found": "Localização atualizada a partir da pesquisa.",
+        "draw_parcel": "Desenhe o limite da parcela no mapa (ferramenta polígono)",
+        "polygon_area_detected": "Área da parcela detetada a partir do desenho",
+        "map_instructions": "Use a ferramenta de polígono à esquerda para delinear a sua parcela.",
         "about_problem": "## Problema",
         "about_problem_text": (
             "A UE pretende 700 GW de solar até 2030, mas os proprietários no Sul da Europa "
@@ -296,6 +315,15 @@ TRANSLATIONS = {
         "gate_detail_g2": "G2 — Distancia a la red dentro de 8 km",
         "gate_detail_g3": "G3 — Irradiación solar superior a 3,5 kWh/m²/día",
         "gate_detail_g4": "G4 — Tamaño de parcela adecuado",
+        "search_address": "Buscar dirección",
+        "search_address_placeholder": "ej. Sevilla, España",
+        "search_button": "Buscar",
+        "searching_address": "Buscando dirección...",
+        "address_not_found": "Dirección no encontrada. Intente otra búsqueda.",
+        "address_found": "Ubicación actualizada desde la búsqueda.",
+        "draw_parcel": "Dibuje el límite de la parcela en el mapa (herramienta polígono)",
+        "polygon_area_detected": "Área de parcela detectada desde el dibujo",
+        "map_instructions": "Use la herramienta de polígono a la izquierda para delinear su parcela.",
         "about_problem": "## Problema",
         "about_problem_text": (
             "La UE apunta a 700 GW de solar para 2030, pero los propietarios en el sur de Europa "
@@ -403,6 +431,15 @@ TRANSLATIONS = {
         "gate_detail_g2": "G2 — Απόσταση δικτύου εντός 8 km",
         "gate_detail_g3": "G3 — Ηλιακή ακτινοβολία πάνω από 3,5 kWh/m²/ημέρα",
         "gate_detail_g4": "G4 — Μέγεθος αγροτεμαχίου επαρκές",
+        "search_address": "Αναζήτηση διεύθυνσης",
+        "search_address_placeholder": "π.χ. Αθήνα, Ελλάδα",
+        "search_button": "Αναζήτηση",
+        "searching_address": "Αναζήτηση διεύθυνσης...",
+        "address_not_found": "Η διεύθυνση δεν βρέθηκε. Δοκιμάστε άλλη αναζήτηση.",
+        "address_found": "Η τοποθεσία ενημερώθηκε από την αναζήτηση.",
+        "draw_parcel": "Σχεδιάστε το όριο του αγροτεμαχίου στον χάρτη (εργαλείο πολυγώνου)",
+        "polygon_area_detected": "Εντοπίστηκε εμβαδόν αγροτεμαχίου από το σχέδιο",
+        "map_instructions": "Χρησιμοποιήστε το εργαλείο πολυγώνου αριστερά για να σκιαγραφήσετε το αγροτεμάχιό σας.",
         "about_problem": "## Πρόβλημα",
         "about_problem_text": (
             "Η ΕΕ στοχεύει σε 700 GW ηλιακής ενέργειας μέχρι το 2030, αλλά οι ιδιοκτήτες "

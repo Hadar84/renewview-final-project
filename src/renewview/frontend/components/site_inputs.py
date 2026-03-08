@@ -2,16 +2,28 @@
 
 Ground parcels: terrain, grid distance, wetland status, parcel size (ha).
 Rooftop/Parking: usable m², skip terrain.
-Includes optional live NASA POWER data fetch.
+Includes optional live NASA POWER data fetch, address geocoding, and polygon drawing.
 """
 
 import json
+import math
 
-import pandas as pd
+import folium
 import requests
 import streamlit as st
+from folium.plugins import Draw
+from shapely.geometry import shape
+from shapely.ops import transform
+from streamlit_folium import st_folium
 
-from renewview.config.settings import NASA_POWER_PARAMS
+from renewview.config.settings import (
+    MAP_DEFAULT_ZOOM,
+    MAP_TILE_PROVIDER,
+    NASA_POWER_PARAMS,
+    NOMINATIM_TIMEOUT,
+    NOMINATIM_URL,
+    NOMINATIM_USER_AGENT,
+)
 from renewview.frontend.assets.i18n import t
 from renewview.frontend.assets.styles import nasa_card_header_html, section_header_html
 
@@ -44,6 +56,72 @@ def _fetch_nasa_power(latitude: float, longitude: float) -> dict | None:
         return None
 
 
+def _geocode_address(address: str) -> dict | None:
+    """Geocode an address via Nominatim. Returns {"lat", "lon", "display_name"} or None."""
+    params = {
+        "q": address,
+        "format": "json",
+        "limit": 1,
+        "viewbox": "-10,44,30,34",
+        "bounded": 0,
+    }
+    headers = {"User-Agent": NOMINATIM_USER_AGENT}
+    try:
+        resp = requests.get(
+            NOMINATIM_URL, params=params, headers=headers, timeout=NOMINATIM_TIMEOUT,
+        )
+        resp.raise_for_status()
+        results = resp.json()
+        if results:
+            return {
+                "lat": float(results[0]["lat"]),
+                "lon": float(results[0]["lon"]),
+                "display_name": results[0].get("display_name", ""),
+            }
+    except (requests.exceptions.RequestException, KeyError, ValueError, json.JSONDecodeError):
+        pass
+    return None
+
+
+def _polygon_area_m2(coords: list[list[float]]) -> float:
+    """Calculate area of a lat/lon polygon in m² using local meter projection.
+
+    Args:
+        coords: List of [longitude, latitude] pairs (GeoJSON order).
+
+    Returns:
+        Area in square meters.
+    """
+    geojson_geom = {"type": "Polygon", "coordinates": [coords]}
+    polygon = shape(geojson_geom)
+    centroid = polygon.centroid
+    lat_rad = math.radians(centroid.y)
+
+    m_per_deg_lat = 111_320.0
+    m_per_deg_lon = 111_320.0 * math.cos(lat_rad)
+
+    def _to_meters(lon: float, lat: float) -> tuple[float, float]:
+        return (lon * m_per_deg_lon, lat * m_per_deg_lat)
+
+    projected = transform(_to_meters, polygon)
+    return abs(projected.area)
+
+
+def _polygon_centroid(coords: list[list[float]]) -> tuple[float, float]:
+    """Return (latitude, longitude) centroid of a polygon.
+
+    Args:
+        coords: List of [longitude, latitude] pairs (GeoJSON order).
+
+    Returns:
+        (latitude, longitude) tuple.
+    """
+    geojson_geom = {"type": "Polygon", "coordinates": [coords]}
+    polygon = shape(geojson_geom)
+    c = polygon.centroid
+    return (c.y, c.x)
+
+
 def render_site_inputs(lang: str = "EN") -> dict:
     """Render adaptive input form based on site type. Returns input dict."""
 
@@ -52,6 +130,37 @@ def render_site_inputs(lang: str = "EN") -> dict:
     # ══════════════════════════════════════════════════════════
     st.markdown(section_header_html(t("location", lang)), unsafe_allow_html=True)
 
+    # ── Address search ──────────────────────────────────────
+    search_col, btn_col = st.columns([4, 1])
+    with search_col:
+        address_query = st.text_input(
+            t("search_address", lang),
+            placeholder=t("search_address_placeholder", lang),
+            label_visibility="collapsed",
+        )
+    with btn_col:
+        search_clicked = st.button(
+            t("search_button", lang), use_container_width=True,
+        )
+
+    if search_clicked and address_query.strip():
+        with st.spinner(t("searching_address", lang)):
+            geo = _geocode_address(address_query.strip())
+        if geo:
+            st.session_state["_geo_lat"] = geo["lat"]
+            st.session_state["_geo_lon"] = geo["lon"]
+            st.session_state["_geo_display"] = geo["display_name"]
+            st.rerun()
+        else:
+            st.warning(t("address_not_found", lang))
+
+    if st.session_state.get("_geo_display"):
+        st.success(
+            f'{t("address_found", lang)} '
+            f'({st.session_state["_geo_display"][:80]})'
+        )
+
+    # ── Lat / Lon / Country ─────────────────────────────────
     loc1, loc2, loc3 = st.columns(3)
     with loc1:
         country = st.selectbox(
@@ -61,17 +170,89 @@ def render_site_inputs(lang: str = "EN") -> dict:
     with loc2:
         latitude = st.number_input(
             t("latitude", lang), min_value=34.0, max_value=44.0,
-            value=38.7, step=0.1,
+            value=float(st.session_state.get("_geo_lat", 38.7)),
+            step=0.1,
         )
     with loc3:
         longitude = st.number_input(
             t("longitude", lang), min_value=-10.0, max_value=30.0,
-            value=-9.1, step=0.1,
+            value=float(st.session_state.get("_geo_lon", -9.1)),
+            step=0.1,
         )
 
-    # Map preview — directly below location inputs
-    st.caption(t("map_preview", lang))
-    st.map(pd.DataFrame({"lat": [latitude], "lon": [longitude]}), zoom=11, height=220)
+    # ── Folium map with Draw plugin ─────────────────────────
+    st.caption(t("draw_parcel", lang))
+
+    m = folium.Map(
+        location=[latitude, longitude],
+        zoom_start=MAP_DEFAULT_ZOOM,
+        tiles=MAP_TILE_PROVIDER,
+    )
+
+    folium.Marker(
+        [latitude, longitude],
+        icon=folium.Icon(color="green", icon="sun-o", prefix="fa"),
+        popup="Selected location",
+    ).add_to(m)
+
+    Draw(
+        export=False,
+        draw_options={
+            "polyline": False,
+            "rectangle": False,
+            "circle": False,
+            "circlemarker": False,
+            "marker": False,
+            "polygon": {
+                "shapeOptions": {
+                    "color": "#00e05a",
+                    "fillColor": "#00e05a",
+                    "fillOpacity": 0.15,
+                    "weight": 2,
+                },
+                "allowIntersection": False,
+            },
+        },
+        edit_options={"edit": True, "remove": True},
+    ).add_to(m)
+
+    # Re-add previously drawn polygon so it persists across reruns
+    if st.session_state.get("_drawn_geojson"):
+        folium.GeoJson(
+            st.session_state["_drawn_geojson"],
+            style_function=lambda _: {
+                "color": "#00e05a",
+                "fillColor": "#00e05a",
+                "fillOpacity": 0.15,
+                "weight": 2,
+            },
+        ).add_to(m)
+
+    map_data = st_folium(m, height=300, width=None, returned_objects=["last_active_drawing"])
+
+    # ── Process drawn polygon ───────────────────────────────
+    drawing = map_data.get("last_active_drawing") if map_data else None
+    if drawing and drawing.get("geometry", {}).get("type") == "Polygon":
+        coords = drawing["geometry"]["coordinates"][0]
+        area = _polygon_area_m2(coords)
+        centroid_lat, centroid_lon = _polygon_centroid(coords)
+
+        st.session_state["_drawn_area_m2"] = area
+        st.session_state["_drawn_lat"] = centroid_lat
+        st.session_state["_drawn_lon"] = centroid_lon
+        st.session_state["_drawn_geojson"] = drawing
+        st.session_state["_geo_lat"] = centroid_lat
+        st.session_state["_geo_lon"] = centroid_lon
+
+    if st.session_state.get("_drawn_area_m2"):
+        area_m2 = st.session_state["_drawn_area_m2"]
+        area_ha = area_m2 / 10_000
+        st.success(
+            f'{t("polygon_area_detected", lang)}: '
+            f"{area_m2:,.0f} m\u00b2 ({area_ha:,.2f} ha)"
+        )
+
+    st.caption("\u2190 " + t("map_instructions", lang))
 
     # ══════════════════════════════════════════════════════════
     # SECTION B — Site Details
@@ -93,12 +274,16 @@ def render_site_inputs(lang: str = "EN") -> dict:
     land_status = "agricultural"
     grid_distance_km = 5.0
 
+    # Default from drawn polygon (converted to ha for ground, m² for rooftop)
+    drawn_area = st.session_state.get("_drawn_area_m2")
+
     if site_type == "ground_parcel":
         d1, d2 = st.columns(2)
         with d1:
             parcel_size_ha = st.number_input(
                 t("parcel_size", lang), min_value=0.1, max_value=500.0,
-                value=5.0, step=0.5,
+                value=round(drawn_area / 10_000, 1) if drawn_area else 5.0,
+                step=0.5,
             )
             terrain = st.selectbox(
                 t("terrain", lang),
@@ -107,8 +292,8 @@ def render_site_inputs(lang: str = "EN") -> dict:
         with d2:
             land_status = st.selectbox(
                 t("land_status", lang),
-                ["agricultural", "industrial", "unused", "wetland",
-                 "protected", "flood_zone"],
+                ["agricultural", "industrial", "unused", "unknown",
+                 "wetland", "protected", "flood_zone"],
             )
             grid_distance_km = st.slider(
                 t("grid_distance", lang), 0.0, 50.0, 5.0, 0.5,
@@ -119,7 +304,8 @@ def render_site_inputs(lang: str = "EN") -> dict:
         with d1:
             usable_m2 = st.number_input(
                 t("usable_area", lang), min_value=10.0, max_value=50000.0,
-                value=500.0, step=50.0,
+                value=round(drawn_area, 0) if drawn_area else 500.0,
+                step=50.0,
             )
         with d2:
             grid_distance_km = st.slider(

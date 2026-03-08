@@ -22,41 +22,36 @@ def render_results(result: dict, lang: str = "EN") -> None:
 
     # ── Not Viable (eliminated by gate) ─────────────────────
     if viability == "Not Viable":
-        st.markdown(
-            not_viable_card_html(
-                gate=result.get("eliminated_by", ""),
-                reason=result.get("reason", ""),
-                redirect=result.get("redirect_to"),
-            ),
-            unsafe_allow_html=True,
+        card = not_viable_card_html(
+            gate=result.get("eliminated_by", ""),
+            reason=result.get("reason", ""),
+            redirect=result.get("redirect_to"),
         )
+        components.html(card, height=200)
         return
 
     # ── SVG Gauge — centered at top ─────────────────────────
-    st.markdown(
-        svg_gauge_html(result["score"], viability),
-        unsafe_allow_html=True,
-    )
+    components.html(svg_gauge_html(result["score"], viability), height=200)
 
     # ── Primary metrics — kWh + Revenue ─────────────────────
     m1, m2 = st.columns(2)
     with m1:
-        st.markdown(
+        components.html(
             metric_card_html(
                 t("annual_kwh", lang),
                 f'{result["annual_kwh"]:,.0f}',
                 icon="⚡",
             ),
-            unsafe_allow_html=True,
+            height=120,
         )
     with m2:
-        st.markdown(
+        components.html(
             metric_card_html(
                 t("annual_revenue", lang),
                 f'€{result["revenue_eur"]:,.0f}',
                 icon="💶",
             ),
-            unsafe_allow_html=True,
+            height=120,
         )
 
     # ── Secondary metrics — GHI + Prediction Source ─────────
@@ -64,24 +59,24 @@ def render_results(result: dict, lang: str = "EN") -> None:
     if result.get("ghi_used"):
         g1, g2 = st.columns(2)
         with g1:
-            st.markdown(
+            components.html(
                 metric_card_html(
                     "GHI USED",
                     f'{result["ghi_used"]:.2f} kWh/m²/day',
                     icon="☀️",
                 ),
-                unsafe_allow_html=True,
+                height=120,
             )
         with g2:
             model_label = "ML MODEL" if result.get("used_model") else "HEURISTIC"
             model_icon = "🤖" if result.get("used_model") else "📐"
-            st.markdown(
+            components.html(
                 metric_card_html(
                     "PREDICTION SOURCE",
                     model_label,
                     icon=model_icon,
                 ),
-                unsafe_allow_html=True,
+                height=120,
             )
 
     # ── Map ─────────────────────────────────────────────────
@@ -108,7 +103,7 @@ def render_results(result: dict, lang: str = "EN") -> None:
 
     # ── Installer CTA (Medium / High only) ──────────────────
     if viability in ("High", "Medium"):
-        st.markdown(
+        components.html(
             '<a href="https://www.solarpowereurope.org/" target="_blank" '
             'style="text-decoration:none; display:block;">'
             '<div style="'
@@ -124,7 +119,7 @@ def render_results(result: dict, lang: str = "EN") -> None:
             'box-shadow:0 0 20px rgba(0,224,90,0.2);'
             'transition:box-shadow 0.2s ease;'
             '">'
-            '🔗 Get a Quote — Connect with Regional Installer'
+            '\U0001f517 Get a Quote \u2014 Connect with Regional Installer'
             '</div></a>',
-            unsafe_allow_html=True,
+            height=80,
         )

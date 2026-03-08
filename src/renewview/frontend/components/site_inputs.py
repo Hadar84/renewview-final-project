@@ -28,7 +28,7 @@ from renewview.config.settings import (
     OPEN_ELEVATION_URL,
     OVERPASS_TIMEOUT,
     OVERPASS_URL,
-    SUBSTATION_SEARCH_RADIUS_KM,
+    SUBSTATION_SEARCH_RADII_KM,
     TERRAIN_COUNTRY_FALLBACK,
     TERRAIN_VARIANCE_FLAT,
     TERRAIN_VARIANCE_HILLY,
@@ -141,27 +141,28 @@ def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
 
 
 def _detect_grid_distance(lat: float, lon: float) -> float | None:
-    """Query Overpass for nearest substation and return distance in km."""
-    radius_m = int(SUBSTATION_SEARCH_RADIUS_KM * 1000)
-    query = (
-        f"[out:json][timeout:{OVERPASS_TIMEOUT}];"
-        f'node["power"="substation"](around:{radius_m},{lat},{lon});'
-        f"out body;"
-    )
-    try:
-        resp = requests.post(
-            OVERPASS_URL, data={"data": query}, timeout=OVERPASS_TIMEOUT + 5,
+    """Query Overpass for nearest substation, trying progressively larger radii."""
+    for radius_km in SUBSTATION_SEARCH_RADII_KM:
+        radius_m = int(radius_km * 1000)
+        query = (
+            f"[out:json][timeout:{OVERPASS_TIMEOUT}];"
+            f'node["power"="substation"](around:{radius_m},{lat},{lon});'
+            f"out body;"
         )
-        resp.raise_for_status()
-        elements = resp.json().get("elements", [])
-        if not elements:
+        try:
+            resp = requests.post(
+                OVERPASS_URL, data={"data": query}, timeout=OVERPASS_TIMEOUT + 5,
+            )
+            resp.raise_for_status()
+            elements = resp.json().get("elements", [])
+            if elements:
+                min_dist = min(
+                    _haversine_km(lat, lon, e["lat"], e["lon"]) for e in elements
+                )
+                return round(min_dist, 2)
+        except (requests.exceptions.RequestException, KeyError, ValueError, json.JSONDecodeError):
             return None
-        min_dist = min(
-            _haversine_km(lat, lon, e["lat"], e["lon"]) for e in elements
-        )
-        return round(min_dist, 2)
-    except (requests.exceptions.RequestException, KeyError, ValueError, json.JSONDecodeError):
-        return None
+    return None
 
 
 def _detect_terrain(lat: float, lon: float, country: str = "") -> str:

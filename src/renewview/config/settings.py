@@ -85,7 +85,7 @@ NOMINATIM_TIMEOUT = 10
 # ── Overpass API (substation lookup for grid distance) ───────
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
 OVERPASS_TIMEOUT = 15
-SUBSTATION_SEARCH_RADIUS_KM = 50
+SUBSTATION_SEARCH_RADII_KM = [50, 100]
 
 # ── Open-Elevation API (terrain detection) ───────────────────
 OPEN_ELEVATION_URL = "https://api.open-elevation.com/api/v1/lookup"

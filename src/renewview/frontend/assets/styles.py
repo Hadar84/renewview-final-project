@@ -545,18 +545,8 @@ def metric_card_html(label: str, value: str, icon: str = "") -> str:
     """
 
 
-def not_viable_card_html(gate: str, reason: str, redirect: str | None = None) -> str:
-    """Generate HTML for the Not Viable elimination card."""
-    redirect_html = ""
-    if redirect:
-        redirect_html = (
-            '<div style="margin-top:1rem;padding:0.8rem 1rem;'
-            "background:rgba(0,150,255,0.06);"
-            "border:1px solid rgba(0,150,255,0.25);"
-            'border-radius:8px;color:#66aaff;font-size:0.85rem;">'
-            f"Recommendation: {redirect}</div>"
-        )
-
+def not_viable_card_html(gate: str, reason: str) -> str:
+    """Generate HTML for the Not Viable elimination card (no recommendation box)."""
     return (
         '<div style="background:#1a0a0a;border:1px solid rgba(255,60,60,0.3);'
         'border-radius:12px;padding:1.5rem;margin-bottom:1rem;">'
@@ -567,7 +557,6 @@ def not_viable_card_html(gate: str, reason: str, redirect: str | None = None) ->
         f"ELIMINATED BY GATE {gate}</div>"
         '<div style="color:#cc8888;font-size:0.9rem;line-height:1.5;">'
         f"{reason}</div>"
-        f"{redirect_html}"
         "</div>"
     )
 

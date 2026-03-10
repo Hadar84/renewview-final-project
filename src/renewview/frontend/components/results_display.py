@@ -32,9 +32,10 @@ def render_results(result: dict, lang: str = "EN") -> None:
         card = not_viable_card_html(
             gate=result.get("eliminated_by", ""),
             reason=result.get("reason", ""),
-            redirect=result.get("redirect_to"),
         )
-        _dark_html(card, height=240 if result.get("redirect_to") else 160)
+        _dark_html(card, height=160)
+        if result.get("redirect_to"):
+            st.info(f"💡 {t('redirect', lang)}: {result['redirect_to']}")
         return
 
     # ── SVG Gauge — centered at top ─────────────────────────

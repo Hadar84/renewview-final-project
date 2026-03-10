@@ -242,25 +242,27 @@ def render_site_inputs(lang: str = "EN") -> dict:
             f'({st.session_state["_geo_display"][:80]})'
         )
 
-    # ── Lat / Lon / Country ─────────────────────────────────
-    loc1, loc2, loc3 = st.columns(3)
-    with loc1:
-        country = st.selectbox(
-            t("country", lang),
-            ["Portugal", "Spain", "Greece", "Italy"],
-        )
-    with loc2:
-        latitude = st.number_input(
-            t("latitude", lang), min_value=34.0, max_value=44.0,
-            value=float(st.session_state.get("_geo_lat", 38.7)),
-            step=0.1,
-        )
-    with loc3:
-        longitude = st.number_input(
-            t("longitude", lang), min_value=-10.0, max_value=30.0,
-            value=float(st.session_state.get("_geo_lon", -9.1)),
-            step=0.1,
-        )
+    # ── Country (always visible) ─────────────────────────────
+    country = st.selectbox(
+        t("country", lang),
+        ["Portugal", "Spain", "Greece", "Italy"],
+    )
+
+    # ── Lat / Lon (collapsed expander) ────────────────────
+    with st.expander(t("advanced_coords", lang), expanded=False):
+        coord1, coord2 = st.columns(2)
+        with coord1:
+            latitude = st.number_input(
+                t("latitude", lang), min_value=34.0, max_value=44.0,
+                value=float(st.session_state.get("_geo_lat", 38.7)),
+                step=0.1,
+            )
+        with coord2:
+            longitude = st.number_input(
+                t("longitude", lang), min_value=-10.0, max_value=30.0,
+                value=float(st.session_state.get("_geo_lon", -9.1)),
+                step=0.1,
+            )
 
     # ── Folium map with Draw plugin ─────────────────────────
     st.caption(t("draw_parcel", lang))
@@ -374,7 +376,17 @@ def render_site_inputs(lang: str = "EN") -> dict:
         t("commercial_rooftop", lang): "commercial_rooftop",
         t("parking_structure", lang): "parking_structure",
     }
-    site_label = st.selectbox(t("site_type", lang), list(site_type_labels.keys()))
+    site_type_keys = list(site_type_labels.keys())
+    preq_site = st.session_state.get("_preq_site_type", "")
+    site_type_default_idx = 0
+    if preq_site:
+        for i, v in enumerate(site_type_labels.values()):
+            if v == preq_site:
+                site_type_default_idx = i
+                break
+    site_label = st.selectbox(
+        t("site_type", lang), site_type_keys, index=site_type_default_idx,
+    )
     site_type = site_type_labels[site_label]
 
     # ── Adaptive fields per site type ─────────────────────

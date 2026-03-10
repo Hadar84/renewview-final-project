@@ -128,6 +128,19 @@ TRANSLATIONS = {
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
         "about_course": "## Course",
         "about_course_text": "AI Development & Collaboration — Hebrew University 2026 — Dr. Zvi Ben Ami",
+        # Pre-qualification (Step 1)
+        "prequalify_heading": "Quick Pre-Check",
+        "land_size_question": "How large is your site?",
+        "land_size_option_small": "Less than 1 hectare",
+        "land_size_option_medium": "1–5 hectares",
+        "land_size_option_large": "5–50 hectares",
+        "land_size_option_xlarge": "50+ hectares",
+        "land_size_rooftop_hint": "For parcels under 2 ha, consider a rooftop assessment instead.",
+        "lead_name": "Your name",
+        "lead_email": "Email address",
+        "lead_optional_note": "Optional — we'll send your report here",
+        # Step 2 advanced toggle
+        "advanced_coords": "Advanced: Manual coordinates",
     },
     "PT": {
         "title": "☀️ RenewView",
@@ -249,6 +262,19 @@ TRANSLATIONS = {
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
         "about_course": "## Curso",
         "about_course_text": "Desenvolvimento de IA e Colaboração — Universidade Hebraica 2026 — Dr. Zvi Ben Ami",
+        # Pre-qualification (Step 1)
+        "prequalify_heading": "Pré-verificação Rápida",
+        "land_size_question": "Qual é o tamanho do seu terreno?",
+        "land_size_option_small": "Menos de 1 hectare",
+        "land_size_option_medium": "1–5 hectares",
+        "land_size_option_large": "5–50 hectares",
+        "land_size_option_xlarge": "50+ hectares",
+        "land_size_rooftop_hint": "Para parcelas com menos de 2 ha, considere uma avaliação de telhado.",
+        "lead_name": "O seu nome",
+        "lead_email": "Endereço de e-mail",
+        "lead_optional_note": "Opcional — enviaremos o seu relatório aqui",
+        # Step 2 advanced toggle
+        "advanced_coords": "Avançado: Coordenadas manuais",
     },
     "ES": {
         "title": "☀️ RenewView",
@@ -370,6 +396,19 @@ TRANSLATIONS = {
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
         "about_course": "## Curso",
         "about_course_text": "Desarrollo de IA y Colaboración — Universidad Hebrea 2026 — Dr. Zvi Ben Ami",
+        # Pre-qualification (Step 1)
+        "prequalify_heading": "Pre-verificación Rápida",
+        "land_size_question": "¿Qué tamaño tiene su terreno?",
+        "land_size_option_small": "Menos de 1 hectárea",
+        "land_size_option_medium": "1–5 hectáreas",
+        "land_size_option_large": "5–50 hectáreas",
+        "land_size_option_xlarge": "50+ hectáreas",
+        "land_size_rooftop_hint": "Para parcelas de menos de 2 ha, considere una evaluación de techo.",
+        "lead_name": "Su nombre",
+        "lead_email": "Correo electrónico",
+        "lead_optional_note": "Opcional — le enviaremos su informe aquí",
+        # Step 2 advanced toggle
+        "advanced_coords": "Avanzado: Coordenadas manuales",
     },
     "EL": {
         "title": "☀️ RenewView",
@@ -491,6 +530,19 @@ TRANSLATIONS = {
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
         "about_course": "## Μάθημα",
         "about_course_text": "Ανάπτυξη AI & Συνεργασία — Εβραϊκό Πανεπιστήμιο 2026 — Dr. Zvi Ben Ami",
+        # Pre-qualification (Step 1)
+        "prequalify_heading": "Γρήγορος Προέλεγχος",
+        "land_size_question": "Πόσο μεγάλο είναι το οικόπεδό σας;",
+        "land_size_option_small": "Λιγότερο από 1 εκτάριο",
+        "land_size_option_medium": "1–5 εκτάρια",
+        "land_size_option_large": "5–50 εκτάρια",
+        "land_size_option_xlarge": "50+ εκτάρια",
+        "land_size_rooftop_hint": "Για αγροτεμάχια κάτω από 2 ha, εξετάστε αξιολόγηση στέγης.",
+        "lead_name": "Το όνομά σας",
+        "lead_email": "Διεύθυνση email",
+        "lead_optional_note": "Προαιρετικό — θα στείλουμε την αναφορά σας εδώ",
+        # Step 2 advanced toggle
+        "advanced_coords": "Για προχωρημένους: Χειροκίνητες συντεταγμένες",
     },
 }
 

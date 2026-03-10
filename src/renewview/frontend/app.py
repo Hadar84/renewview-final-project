@@ -8,7 +8,7 @@ import streamlit as st
 
 from renewview.backend.services.prediction_service import PredictionService
 from renewview.frontend.assets.i18n import t
-from renewview.frontend.assets.styles import THEME_CSS, welcome_hero_html
+from renewview.frontend.assets.styles import THEME_CSS, section_header_html, welcome_hero_html
 from renewview.frontend.components.results_display import render_results
 from renewview.frontend.components.site_inputs import render_site_inputs
 
@@ -56,8 +56,40 @@ if st.session_state.step == 1:
         unsafe_allow_html=True,
     )
 
+    # ── Pre-qualification card ─────────────────────────────
     st.markdown('<div style="margin-top:1.5rem;"></div>', unsafe_allow_html=True)
+    st.markdown(section_header_html(t("prequalify_heading", lang)), unsafe_allow_html=True)
+
+    land_size_options = [
+        t("land_size_option_small", lang),
+        t("land_size_option_medium", lang),
+        t("land_size_option_large", lang),
+        t("land_size_option_xlarge", lang),
+    ]
+    land_size = st.radio(
+        t("land_size_question", lang),
+        land_size_options,
+        index=1,
+        key="_preq_land_size_radio",
+    )
+
+    if land_size == land_size_options[0]:
+        st.info(t("land_size_rooftop_hint", lang))
+
+    name_col, email_col = st.columns(2)
+    with name_col:
+        lead_name = st.text_input(t("lead_name", lang), key="_preq_name")
+    with email_col:
+        lead_email = st.text_input(t("lead_email", lang), key="_preq_email")
+    st.caption(t("lead_optional_note", lang))
+
+    st.markdown('<div style="margin-top:1rem;"></div>', unsafe_allow_html=True)
     if st.button(t("start_assessment", lang), type="primary", use_container_width=True):
+        st.session_state["_preq_land_size"] = land_size
+        if land_size == land_size_options[0]:
+            st.session_state["_preq_site_type"] = "commercial_rooftop"
+        else:
+            st.session_state.pop("_preq_site_type", None)
         st.session_state.step = 2
         st.rerun()
 
@@ -167,7 +199,9 @@ elif st.session_state.step == 3:
         st.session_state.step = 1
         for _key in ("_result", "_drawn_area_m2", "_drawn_lat", "_drawn_lon",
                       "_drawn_geojson", "_geo_lat", "_geo_lon", "_geo_display",
-                      "_auto_grid_km", "_auto_terrain"):
+                      "_auto_grid_km", "_auto_terrain",
+                      "_preq_land_size", "_preq_name", "_preq_email",
+                      "_preq_site_type"):
             st.session_state.pop(_key, None)
         st.rerun()
 

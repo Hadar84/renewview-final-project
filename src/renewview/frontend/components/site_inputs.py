@@ -403,7 +403,7 @@ def render_site_inputs(lang: str = "EN") -> dict:
         d1, d2 = st.columns(2)
         with d1:
             parcel_size_ha = st.number_input(
-                t("parcel_size", lang), min_value=0.1, max_value=500.0,
+                t("parcel_size", lang), min_value=0.1,
                 value=round(drawn_area / 10_000, 1) if drawn_area else 5.0,
                 step=0.5,
             )

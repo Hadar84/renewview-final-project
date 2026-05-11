@@ -38,9 +38,6 @@ with st.sidebar:
     st.divider()
     st.header(t("ethics_title", lang))
     st.markdown(t("sidebar_ethics_text", lang))
-    st.divider()
-    st.caption(t("sidebar_built_with", lang))
-    st.caption(t("sidebar_course", lang))
 
 # ── Step State ───────────────────────────────────────────────
 if "step" not in st.session_state:

@@ -56,8 +56,6 @@ TRANSLATIONS = {
             "- Agricultural land conversion trade-offs\n"
             "- Always consult a professional before investing"
         ),
-        "sidebar_built_with": "Built with CrewAI, Scikit-Learn & Streamlit",
-        "sidebar_course": "Final Project — AI Development Course 2026",
         # Tabs
         "tab_assessment": "🔍 Assessment",
         "tab_about": "ℹ️ About",
@@ -196,8 +194,6 @@ TRANSLATIONS = {
             "- Compensações na conversão de terras agrícolas\n"
             "- Consulte sempre um profissional antes de investir"
         ),
-        "sidebar_built_with": "Desenvolvido com CrewAI, Scikit-Learn e Streamlit",
-        "sidebar_course": "Projeto Final — Curso de IA 2026",
         "tab_assessment": "🔍 Avaliação",
         "tab_about": "ℹ️ Sobre",
         "fetch_solar_data": "☀️ Obter Dados Solares da NASA",
@@ -330,8 +326,6 @@ TRANSLATIONS = {
             "- Compensaciones en la conversión de tierras agrícolas\n"
             "- Consulte siempre a un profesional antes de invertir"
         ),
-        "sidebar_built_with": "Desarrollado con CrewAI, Scikit-Learn y Streamlit",
-        "sidebar_course": "Proyecto Final — Curso de IA 2026",
         "tab_assessment": "🔍 Evaluación",
         "tab_about": "ℹ️ Acerca de",
         "fetch_solar_data": "☀️ Obtener Datos Solares de NASA",
@@ -464,8 +458,6 @@ TRANSLATIONS = {
             "- Ανταλλαγές στη μετατροπή γεωργικής γης\n"
             "- Συμβουλευτείτε πάντα ειδικό πριν επενδύσετε"
         ),
-        "sidebar_built_with": "Αναπτύχθηκε με CrewAI, Scikit-Learn & Streamlit",
-        "sidebar_course": "Τελικό Πρόγραμμα — Μάθημα AI 2026",
         "tab_assessment": "🔍 Αξιολόγηση",
         "tab_about": "ℹ️ Σχετικά",
         "fetch_solar_data": "☀️ Λήψη Ηλιακών Δεδομένων από NASA",

@@ -5,6 +5,7 @@ This file is the entry point: `streamlit run src/renewview/frontend/app.py`
 """
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from renewview.backend.services.prediction_service import PredictionService
 from renewview.frontend.assets.i18n import t
@@ -82,6 +83,24 @@ if st.session_state.step == 1:
     with email_col:
         lead_email = st.text_input(t("lead_email", lang), key="_preq_email")
     st.caption(t("lead_optional_note", lang))
+
+    components.html(
+        """
+        <script>
+        setTimeout(function() {
+            const doc = window.parent.document;
+            const inputs = doc.querySelectorAll('input[aria-label]');
+            inputs.forEach(function(el) {
+                const label = (el.getAttribute('aria-label') || '').toLowerCase();
+                if (label.includes('email') || label.includes('name')) {
+                    el.setAttribute('autocomplete', 'new-password');
+                }
+            });
+        }, 500);
+        </script>
+        """,
+        height=0,
+    )
 
     st.markdown('<div style="margin-top:1rem;"></div>', unsafe_allow_html=True)
     if st.button(t("start_assessment", lang), type="primary", use_container_width=True):

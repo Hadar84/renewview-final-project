@@ -3,8 +3,8 @@
 TRANSLATIONS = {
     "EN": {
         "title": "☀️ RenewView",
-        "subtitle": "Solar Energy Land Viability Assessment — Southern Europe",
-        "intro": "Enter your property details to receive an AI-powered viability assessment.",
+        "subtitle": "Find out what your land could earn from solar.",
+        "intro": "Free assessment in under 2 minutes for landowners in Portugal, Spain & Greece.",
         "location": "📍 Property Location",
         "details": "🏗️ Property Details",
         "country": "Country",
@@ -142,8 +142,8 @@ TRANSLATIONS = {
     },
     "PT": {
         "title": "☀️ RenewView",
-        "subtitle": "Avaliação de Viabilidade de Energia Solar — Sul da Europa",
-        "intro": "Insira os dados da sua propriedade para receber uma avaliação de viabilidade.",
+        "subtitle": "Descubra quanto o seu terreno pode render com energia solar.",
+        "intro": "Avaliação gratuita em menos de 2 minutos para proprietários em Portugal, Espanha e Grécia.",
         "location": "📍 Localização",
         "details": "🏗️ Detalhes da Propriedade",
         "country": "País",
@@ -274,8 +274,8 @@ TRANSLATIONS = {
     },
     "ES": {
         "title": "☀️ RenewView",
-        "subtitle": "Evaluación de Viabilidad Solar — Sur de Europa",
-        "intro": "Ingrese los datos de su propiedad para una evaluación de viabilidad.",
+        "subtitle": "Descubra cuánto podría rentar su terreno con energía solar.",
+        "intro": "Evaluación gratuita en menos de 2 minutos para propietarios en Portugal, España y Grecia.",
         "location": "📍 Ubicación",
         "details": "🏗️ Detalles de la Propiedad",
         "country": "País",
@@ -406,8 +406,8 @@ TRANSLATIONS = {
     },
     "EL": {
         "title": "☀️ RenewView",
-        "subtitle": "Αξιολόγηση Βιωσιμότητας Ηλιακής Ενέργειας — Νότια Ευρώπη",
-        "intro": "Εισάγετε τα στοιχεία του ακινήτου σας για αξιολόγηση βιωσιμότητας.",
+        "subtitle": "Μάθετε πόσα μπορεί να αποδώσει η γη σας από την ηλιακή ενέργεια.",
+        "intro": "Δωρεάν αξιολόγηση σε λιγότερο από 2 λεπτά για ιδιοκτήτες γης σε Πορτογαλία, Ισπανία και Ελλάδα.",
         "location": "📍 Τοποθεσία",
         "details": "🏗️ Στοιχεία Ακινήτου",
         "country": "Χώρα",

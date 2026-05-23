@@ -139,6 +139,15 @@ TRANSLATIONS = {
         "lead_optional_note": "Optional — we'll send your report here",
         # Step 2 advanced toggle
         "advanced_coords": "Advanced: Manual coordinates",
+        # Step 3 paid report CTA
+        "cta_headline": "Your full personalized subsidy + installer report, delivered by email within 24 hours.",
+        "cta_button": "Get my €29 detailed report →",
+        "cta_trust": "Secure checkout by Lemon Squeezy. EU VAT included.",
+        "cta_not_viable_note": (
+            "Based on these inputs, solar doesn't look viable here. "
+            "The detailed report is offered only for viable properties — "
+            "adjust your inputs if you think the assessment is off."
+        ),
     },
     "PT": {
         "title": "☀️ RenewView",
@@ -271,6 +280,15 @@ TRANSLATIONS = {
         "lead_optional_note": "Opcional — enviaremos o seu relatório aqui",
         # Step 2 advanced toggle
         "advanced_coords": "Avançado: Coordenadas manuais",
+        # Step 3 paid report CTA
+        "cta_headline": "O seu relatório completo e personalizado de subsídios + instaladores, entregue por email em 24 horas.",
+        "cta_button": "Obter o meu relatório detalhado €29 →",
+        "cta_trust": "Checkout seguro via Lemon Squeezy. IVA da UE incluído.",
+        "cta_not_viable_note": (
+            "Com base nestes dados, a energia solar não parece viável aqui. "
+            "O relatório detalhado é oferecido apenas para propriedades viáveis — "
+            "ajuste os seus dados se achar que a avaliação está incorreta."
+        ),
     },
     "ES": {
         "title": "☀️ RenewView",
@@ -403,6 +421,15 @@ TRANSLATIONS = {
         "lead_optional_note": "Opcional — le enviaremos su informe aquí",
         # Step 2 advanced toggle
         "advanced_coords": "Avanzado: Coordenadas manuales",
+        # Step 3 paid report CTA
+        "cta_headline": "Su informe completo y personalizado de subvenciones + instaladores, entregado por email en 24 horas.",
+        "cta_button": "Obtener mi informe detallado €29 →",
+        "cta_trust": "Pago seguro con Lemon Squeezy. IVA de la UE incluido.",
+        "cta_not_viable_note": (
+            "Según estos datos, la energía solar no parece viable aquí. "
+            "El informe detallado solo se ofrece para propiedades viables — "
+            "ajuste sus datos si cree que la evaluación es incorrecta."
+        ),
     },
     "EL": {
         "title": "☀️ RenewView",
@@ -535,6 +562,15 @@ TRANSLATIONS = {
         "lead_optional_note": "Προαιρετικό — θα στείλουμε την αναφορά σας εδώ",
         # Step 2 advanced toggle
         "advanced_coords": "Για προχωρημένους: Χειροκίνητες συντεταγμένες",
+        # Step 3 paid report CTA
+        "cta_headline": "Η πλήρης εξατομικευμένη αναφορά σας για επιδοτήσεις + εγκαταστάτες, παραδίδεται μέσω email εντός 24 ωρών.",
+        "cta_button": "Λάβετε την αναλυτική μου αναφορά €29 →",
+        "cta_trust": "Ασφαλής πληρωμή μέσω Lemon Squeezy. Συμπεριλαμβάνεται ΦΠΑ ΕΕ.",
+        "cta_not_viable_note": (
+            "Με βάση αυτά τα δεδομένα, η ηλιακή ενέργεια δεν φαίνεται βιώσιμη εδώ. "
+            "Η αναλυτική αναφορά προσφέρεται μόνο για βιώσιμα ακίνητα — "
+            "προσαρμόστε τα δεδομένα σας αν πιστεύετε ότι η αξιολόγηση είναι λανθασμένη."
+        ),
     },
 }
 

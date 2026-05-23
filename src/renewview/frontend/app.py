@@ -210,6 +210,41 @@ elif st.session_state.step == 3:
             st.session_state.step = 2
             st.rerun()
 
+    # ── Paid report CTA ─────────────────────────────────────
+    if result:
+        if result.get("viability_class") != "Not Viable":
+            st.markdown(
+                '<div style="margin-top:2rem; padding-top:1.25rem; '
+                'border-top:1px solid rgba(0,224,90,0.15); text-align:center;">'
+                '<p style="color:#e0f0e0; font-size:1rem; line-height:1.5; '
+                'margin:0 auto 0.9rem auto; max-width:620px;">'
+                + t("cta_headline", lang) +
+                '</p></div>',
+                unsafe_allow_html=True,
+            )
+            st.link_button(
+                t("cta_button", lang),
+                "https://citrusstudio.lemonsqueezy.com/checkout/buy/4f7ec202-a6ac-4dd8-89d9-f98e1330b6a8",
+                use_container_width=True,
+            )
+            st.markdown(
+                '<p style="color:#8a9a8a; font-size:0.82rem; text-align:center; '
+                'margin:0.6rem 0 0 0;">'
+                + t("cta_trust", lang) +
+                '</p>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                '<div style="margin-top:2rem; padding:1.1rem 1rem; '
+                'border-top:1px solid rgba(0,224,90,0.15); text-align:center;">'
+                '<p style="color:#8a9a8a; font-size:0.9rem; line-height:1.5; '
+                'margin:0 auto; max-width:620px;">'
+                + t("cta_not_viable_note", lang) +
+                '</p></div>',
+                unsafe_allow_html=True,
+            )
+
     st.markdown('<div style="margin-top:1.5rem;"></div>', unsafe_allow_html=True)
     if st.button(t("new_assessment", lang), type="primary", use_container_width=True):
         st.session_state.step = 1

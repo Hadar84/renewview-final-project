@@ -67,6 +67,9 @@ class PredictionService:
         precipitation: Optional[float] = None,
         cloud_cover: Optional[float] = None,
         usable_m2: Optional[float] = None,
+        roof_area_m2: Optional[float] = None,
+        orientation: Optional[str] = None,
+        shading: Optional[str] = None,
     ) -> dict:
         """Run full assessment: gates → model → energy → score.
 
@@ -93,6 +96,16 @@ class PredictionService:
         if ghi is None:
             ghi = self._estimate_ghi_by_latitude(latitude)
 
+        # ── Residential roof: separate branch (different gates, no ML) ──
+        if site_type == "residential_roof":
+            return self._assess_residential_roof(
+                country=country,
+                ghi=ghi,
+                roof_area_m2=roof_area_m2 or 0.0,
+                orientation=(orientation or "S"),
+                shading=(shading or "none"),
+            )
+
         # ── Step 1: Elimination Gates ───────────────────────
         gate_result = run_elimination_gates(
             land_status=land_status,
@@ -113,6 +126,7 @@ class PredictionService:
                 "redirect_to": gate_result.redirect_to,
                 "flags": gate_result.flags,
                 "used_model": False,
+                "site_type": site_type,
             }
 
         # ── Step 2: ML Prediction (if model available) ──────
@@ -165,7 +179,95 @@ class PredictionService:
             "redirect_to": None,
             "flags": gate_result.flags,
             "used_model": self._loaded,
+            "site_type": site_type,
         }
+
+    def _assess_residential_roof(
+        self,
+        country: str,
+        ghi: float,
+        roof_area_m2: float,
+        orientation: str,
+        shading: str,
+    ) -> dict:
+        """Residential roof branch: roof-specific gates + kWp + savings + PAE+S."""
+        from renewview.backend.gates.elimination_gates import run_residential_roof_gates
+        from renewview.backend.services.energy_calculator import (
+            feasibility_score_residential,
+            paes_subsidy_estimate,
+            residential_annual_kwh,
+            residential_annual_savings_eur,
+            residential_system_kwp,
+        )
+
+        kwp = residential_system_kwp(roof_area_m2, orientation, shading)
+        gate_result = run_residential_roof_gates(orientation, shading, ghi, kwp)
+
+        if not gate_result.passed:
+            return {
+                "viability_class": NOT_VIABLE_CLASS,
+                "score": 0.0,
+                "annual_kwh": 0,
+                "revenue_eur": 0,
+                "kwp": kwp,
+                "paes_eligible": False,
+                "paes_amount_eur": 0.0,
+                "eliminated_by": gate_result.eliminated_by,
+                "reason": gate_result.reason,
+                "redirect_to": gate_result.redirect_to,
+                "flags": gate_result.flags,
+                "used_model": False,
+                "site_type": "residential_roof",
+                "ghi_used": ghi,
+                "orientation": orientation,
+                "shading": shading,
+            }
+
+        annual_kwh = residential_annual_kwh(kwp, ghi)
+        savings_eur = residential_annual_savings_eur(annual_kwh)
+        paes = paes_subsidy_estimate(kwp, country)
+        score = feasibility_score_residential(ghi, kwp, orientation, shading)
+        viability_class = self._residential_class(kwp, ghi, orientation, shading)
+
+        return {
+            "viability_class": viability_class,
+            "score": score,
+            "annual_kwh": annual_kwh,
+            "revenue_eur": savings_eur,
+            "kwp": kwp,
+            "paes_eligible": paes["eligible"],
+            "paes_amount_eur": paes["amount_eur"],
+            "paes_system_cost_eur": paes["system_cost_eur"],
+            "ghi_used": ghi,
+            "eliminated_by": None,
+            "reason": None,
+            "redirect_to": None,
+            "flags": gate_result.flags,
+            "used_model": False,
+            "site_type": "residential_roof",
+            "orientation": orientation,
+            "shading": shading,
+        }
+
+    @staticmethod
+    def _residential_class(kwp: float, ghi: float, orientation: str, shading: str) -> str:
+        """Heuristic class for residential roof — model isn't trained on this segment."""
+        orient_u = orientation.upper()
+        shade_l = shading.lower()
+        if (
+            kwp >= 4
+            and ghi >= 5.0
+            and orient_u in ("S", "SE", "SW")
+            and shade_l in ("none", "light")
+        ):
+            return "High"
+        if (
+            kwp < 2
+            or ghi < 4.0
+            or (shade_l == "moderate" and orient_u in ("E", "W"))
+        ):
+            return "Low"
+        return "Medium"
 
     def _predict_with_model(
         self,

@@ -161,6 +161,9 @@ elif st.session_state.step == 2:
                     precipitation=inputs["precipitation"],
                     cloud_cover=inputs["cloud_cover"],
                     usable_m2=inputs["usable_m2"] if inputs["usable_m2"] > 0 else None,
+                    roof_area_m2=inputs.get("roof_area_m2") or None,
+                    orientation=inputs.get("orientation"),
+                    shading=inputs.get("shading"),
                 )
 
             st.session_state["_result"] = result

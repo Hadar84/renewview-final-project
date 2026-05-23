@@ -13,6 +13,8 @@ from renewview.config.settings import (
     GATE_G3_MIN_GHI_KWH,
     GATE_G4_MIN_PARCEL_HA_GROUND,
     GATE_G4_SMALL_COMMERCIAL_HA,
+    ROOF_GATE_MAX_KWP,
+    ROOF_GATE_MIN_KWP,
 )
 
 
@@ -95,3 +97,65 @@ def run_elimination_gates(
 
     # ── All gates passed ────────────────────────────────────
     return GateResult(passed=True, flags=flags)
+
+
+def run_residential_roof_gates(
+    orientation: str,
+    shading: str,
+    ghi_kwh: float,
+    kwp: float,
+) -> GateResult:
+    """Run the 4 residential-roof elimination gates.
+
+    G1: Roof orientation not pure North.
+    G2: Shading not "heavy".
+    G3: GHI >= 3.5 kWh/m²/day.
+    G4: System size within [1.5, 15] kWp.
+
+    Args:
+        orientation: One of S, SE, SW, E, W, N.
+        shading: One of none, light, moderate, heavy.
+        ghi_kwh: Global Horizontal Irradiance in kWh/m²/day.
+        kwp: Estimated system size in kWp (already derated for orient+shading).
+
+    Returns:
+        GateResult with pass/fail status and reasoning.
+    """
+    if orientation.upper() == "N":
+        return GateResult(
+            passed=False,
+            eliminated_by="G1",
+            reason="Roof faces pure North — solar yield too low to be viable.",
+        )
+
+    if shading.lower() == "heavy":
+        return GateResult(
+            passed=False,
+            eliminated_by="G2",
+            reason="Heavy shading on the roof cuts production by ~50% — not viable.",
+        )
+
+    if ghi_kwh < GATE_G3_MIN_GHI_KWH:
+        return GateResult(
+            passed=False,
+            eliminated_by="G3",
+            reason=f"Solar irradiance {ghi_kwh:.2f} kWh/m²/day is below "
+                   f"{GATE_G3_MIN_GHI_KWH} minimum — insufficient solar resource.",
+        )
+
+    if kwp < ROOF_GATE_MIN_KWP:
+        return GateResult(
+            passed=False,
+            eliminated_by="G4",
+            reason=f"Estimated system size {kwp:.2f} kWp is below "
+                   f"{ROOF_GATE_MIN_KWP} kWp — roof too small or too shaded.",
+        )
+    if kwp > ROOF_GATE_MAX_KWP:
+        return GateResult(
+            passed=False,
+            eliminated_by="G4",
+            reason=f"Estimated system size {kwp:.2f} kWp exceeds "
+                   f"{ROOF_GATE_MAX_KWP} kWp residential cap — consider commercial setup.",
+        )
+
+    return GateResult(passed=True, flags=[])

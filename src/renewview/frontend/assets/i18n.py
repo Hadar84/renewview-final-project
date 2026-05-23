@@ -148,6 +148,33 @@ TRANSLATIONS = {
             "The detailed report is offered only for viable properties — "
             "adjust your inputs if you think the assessment is off."
         ),
+        # Residential roof — site type + inputs
+        "residential_roof": "Residential Roof",
+        "roof_area": "Roof Area (m²)",
+        "roof_orientation": "Roof Orientation",
+        "roof_shading": "Shading Level",
+        "orient_s": "South",
+        "orient_se": "Southeast",
+        "orient_sw": "Southwest",
+        "orient_e": "East",
+        "orient_w": "West",
+        "orient_n": "North",
+        "shading_none": "None",
+        "shading_light": "Light",
+        "shading_moderate": "Moderate",
+        "shading_heavy": "Heavy",
+        # Residential roof — result labels
+        "est_annual_production": "Est. Annual Production",
+        "annual_savings": "Est. Annual Savings",
+        "system_size": "System Size",
+        "paes_subsidy": "PAE+S Subsidy",
+        "paes_eligible_yes": "Eligible",
+        "paes_eligible_no": "Not Eligible",
+        # Residential roof — gate descriptions
+        "roof_gate_g1": "G1 — Roof orientation usable for solar",
+        "roof_gate_g2": "G2 — Shading level acceptable",
+        "roof_gate_g3": "G3 — Solar irradiance above 3.5 kWh/m²/day",
+        "roof_gate_g4": "G4 — System size in viable range (1.5–15 kWp)",
     },
     "PT": {
         "title": "☀️ RenewView",
@@ -289,6 +316,33 @@ TRANSLATIONS = {
             "O relatório detalhado é oferecido apenas para propriedades viáveis — "
             "ajuste os seus dados se achar que a avaliação está incorreta."
         ),
+        # Residential roof — site type + inputs
+        "residential_roof": "Telhado Residencial",
+        "roof_area": "Área do Telhado (m²)",
+        "roof_orientation": "Orientação do Telhado",
+        "roof_shading": "Nível de Sombreamento",
+        "orient_s": "Sul",
+        "orient_se": "Sudeste",
+        "orient_sw": "Sudoeste",
+        "orient_e": "Leste",
+        "orient_w": "Oeste",
+        "orient_n": "Norte",
+        "shading_none": "Nenhum",
+        "shading_light": "Leve",
+        "shading_moderate": "Moderado",
+        "shading_heavy": "Intenso",
+        # Residential roof — result labels
+        "est_annual_production": "Produção Anual Est.",
+        "annual_savings": "Poupança Anual Est.",
+        "system_size": "Tamanho do Sistema",
+        "paes_subsidy": "Subsídio PAE+S",
+        "paes_eligible_yes": "Elegível",
+        "paes_eligible_no": "Não Elegível",
+        # Residential roof — gate descriptions
+        "roof_gate_g1": "G1 — Orientação do telhado adequada para solar",
+        "roof_gate_g2": "G2 — Nível de sombreamento aceitável",
+        "roof_gate_g3": "G3 — Irradiação solar acima de 3,5 kWh/m²/dia",
+        "roof_gate_g4": "G4 — Tamanho do sistema viável (1,5–15 kWp)",
     },
     "ES": {
         "title": "☀️ RenewView",
@@ -430,6 +484,33 @@ TRANSLATIONS = {
             "El informe detallado solo se ofrece para propiedades viables — "
             "ajuste sus datos si cree que la evaluación es incorrecta."
         ),
+        # Residential roof — site type + inputs
+        "residential_roof": "Tejado Residencial",
+        "roof_area": "Área del Tejado (m²)",
+        "roof_orientation": "Orientación del Tejado",
+        "roof_shading": "Nivel de Sombra",
+        "orient_s": "Sur",
+        "orient_se": "Sureste",
+        "orient_sw": "Suroeste",
+        "orient_e": "Este",
+        "orient_w": "Oeste",
+        "orient_n": "Norte",
+        "shading_none": "Ninguna",
+        "shading_light": "Ligera",
+        "shading_moderate": "Moderada",
+        "shading_heavy": "Intensa",
+        # Residential roof — result labels
+        "est_annual_production": "Producción Anual Est.",
+        "annual_savings": "Ahorro Anual Est.",
+        "system_size": "Tamaño del Sistema",
+        "paes_subsidy": "Subvención PAE+S",
+        "paes_eligible_yes": "Elegible",
+        "paes_eligible_no": "No Elegible",
+        # Residential roof — gate descriptions
+        "roof_gate_g1": "G1 — Orientación del tejado adecuada para solar",
+        "roof_gate_g2": "G2 — Nivel de sombra aceptable",
+        "roof_gate_g3": "G3 — Irradiación solar superior a 3,5 kWh/m²/día",
+        "roof_gate_g4": "G4 — Tamaño del sistema viable (1,5–15 kWp)",
     },
     "EL": {
         "title": "☀️ RenewView",
@@ -571,6 +652,33 @@ TRANSLATIONS = {
             "Η αναλυτική αναφορά προσφέρεται μόνο για βιώσιμα ακίνητα — "
             "προσαρμόστε τα δεδομένα σας αν πιστεύετε ότι η αξιολόγηση είναι λανθασμένη."
         ),
+        # Residential roof — site type + inputs
+        "residential_roof": "Στέγη Κατοικίας",
+        "roof_area": "Επιφάνεια Στέγης (m²)",
+        "roof_orientation": "Προσανατολισμός Στέγης",
+        "roof_shading": "Επίπεδο Σκίασης",
+        "orient_s": "Νότος",
+        "orient_se": "Νοτιοανατολικά",
+        "orient_sw": "Νοτιοδυτικά",
+        "orient_e": "Ανατολικά",
+        "orient_w": "Δυτικά",
+        "orient_n": "Βορράς",
+        "shading_none": "Καμία",
+        "shading_light": "Ελαφριά",
+        "shading_moderate": "Μέτρια",
+        "shading_heavy": "Έντονη",
+        # Residential roof — result labels
+        "est_annual_production": "Εκτ. Ετήσια Παραγωγή",
+        "annual_savings": "Εκτ. Ετήσια Εξοικονόμηση",
+        "system_size": "Μέγεθος Συστήματος",
+        "paes_subsidy": "Επιδότηση PAE+S",
+        "paes_eligible_yes": "Επιλέξιμο",
+        "paes_eligible_no": "Μη Επιλέξιμο",
+        # Residential roof — gate descriptions
+        "roof_gate_g1": "G1 — Ο προσανατολισμός της στέγης είναι κατάλληλος",
+        "roof_gate_g2": "G2 — Αποδεκτό επίπεδο σκίασης",
+        "roof_gate_g3": "G3 — Ηλιακή ακτινοβολία πάνω από 3,5 kWh/m²/ημέρα",
+        "roof_gate_g4": "G4 — Μέγεθος συστήματος σε βιώσιμο εύρος (1,5–15 kWp)",
     },
 }
 

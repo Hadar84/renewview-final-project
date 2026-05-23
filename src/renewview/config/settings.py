@@ -56,7 +56,38 @@ TARGET_COUNTRIES = {
 }
 
 # ── Site Types ──────────────────────────────────────────────
-SITE_TYPES = ["ground_parcel", "commercial_rooftop", "parking_structure"]
+SITE_TYPES = ["ground_parcel", "commercial_rooftop", "parking_structure", "residential_roof"]
+
+# ── Residential Roof Parameters (homeowner rooftop strategy) ─
+ROOF_KWP_PER_M2 = 0.18                  # ~180 W per m² usable roof
+ROOF_ORIENTATION_DERATE = {
+    "S": 1.00,
+    "SE": 0.95,
+    "SW": 0.95,
+    "E": 0.85,
+    "W": 0.85,
+    "N": 0.60,
+}
+ROOF_SHADING_DERATE = {
+    "none": 1.00,
+    "light": 0.90,
+    "moderate": 0.75,
+    "heavy": 0.50,
+}
+ROOF_SYSTEM_PERFORMANCE_RATIO = 0.85    # residential inverter+wiring+temperature
+RESIDENTIAL_KWH_RATE_EUR = 0.22         # avg PT residential retail (used as savings rate)
+
+# ── Residential Roof Gates ──────────────────────────────────
+ROOF_GATE_MIN_KWP = 1.5
+ROOF_GATE_MAX_KWP = 15.0
+
+# ── Portugal PAE+S Subsidy ──────────────────────────────────
+PAES_ELIGIBLE_COUNTRY = "Portugal"
+PAES_MIN_KWP = 1.5
+PAES_MAX_KWP = 10.0
+PAES_SUBSIDY_RATE = 0.85                # 85% of system cost
+PAES_SUBSIDY_CAP_EUR = 3000.0
+RESIDENTIAL_INSTALL_COST_PER_KWP = 1200.0  # typical PT residential turnkey
 
 # ── NASA POWER API Parameters ──────────────────────────────
 NASA_POWER_PARAMS = (

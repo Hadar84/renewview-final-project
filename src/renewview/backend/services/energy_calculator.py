@@ -8,7 +8,18 @@ from renewview.config.settings import (
     FEED_IN_TARIFFS,
     GROUND_COVERAGE_RATIO,
     PANEL_EFFICIENCY,
+    PAES_ELIGIBLE_COUNTRY,
+    PAES_MAX_KWP,
+    PAES_MIN_KWP,
+    PAES_SUBSIDY_CAP_EUR,
+    PAES_SUBSIDY_RATE,
     PERFORMANCE_RATIO,
+    RESIDENTIAL_INSTALL_COST_PER_KWP,
+    RESIDENTIAL_KWH_RATE_EUR,
+    ROOF_KWP_PER_M2,
+    ROOF_ORIENTATION_DERATE,
+    ROOF_SHADING_DERATE,
+    ROOF_SYSTEM_PERFORMANCE_RATIO,
     ROOFTOP_COVERAGE_RATIO,
 )
 
@@ -99,4 +110,85 @@ def feasibility_score(
         + 0.10 * scale_score
     )
 
+    return round(score * 100, 1)
+
+
+# ── Residential Roof Calculations ───────────────────────────
+
+
+def residential_system_kwp(
+    roof_area_m2: float,
+    orientation: str,
+    shading: str,
+) -> float:
+    """Estimate installable PV system size for a residential roof.
+
+    Args:
+        roof_area_m2: Usable roof area in m².
+        orientation: One of S, SE, SW, E, W, N.
+        shading: One of none, light, moderate, heavy.
+
+    Returns:
+        Estimated system size in kWp (clamped to >= 0).
+    """
+    orient_factor = ROOF_ORIENTATION_DERATE.get(orientation.upper(), 0.85)
+    shade_factor = ROOF_SHADING_DERATE.get(shading.lower(), 0.75)
+    raw_kwp = roof_area_m2 * ROOF_KWP_PER_M2 * orient_factor * shade_factor
+    return round(max(0.0, raw_kwp), 2)
+
+
+def residential_annual_kwh(kwp: float, ghi_kwh_m2_day: float) -> float:
+    """Annual production for a residential rooftop system.
+
+    kWh = kWp * GHI * 365 * performance_ratio
+    """
+    return round(kwp * ghi_kwh_m2_day * 365 * ROOF_SYSTEM_PERFORMANCE_RATIO, 2)
+
+
+def residential_annual_savings_eur(annual_kwh: float) -> float:
+    """Annual € savings on retail electricity for a residential system."""
+    return round(annual_kwh * RESIDENTIAL_KWH_RATE_EUR, 2)
+
+
+def paes_subsidy_estimate(kwp: float, country: str) -> dict:
+    """Estimate Portugal PAE+S subsidy eligibility and amount.
+
+    Eligible only when country == Portugal and 1.5 <= kWp <= 10.
+    Subsidy = min(€3,000, system_cost * 0.85) where system_cost = kWp * €1,200.
+    """
+    system_cost = round(kwp * RESIDENTIAL_INSTALL_COST_PER_KWP, 2)
+    if country != PAES_ELIGIBLE_COUNTRY:
+        return {"eligible": False, "amount_eur": 0.0, "system_cost_eur": system_cost}
+    if kwp < PAES_MIN_KWP or kwp > PAES_MAX_KWP:
+        return {"eligible": False, "amount_eur": 0.0, "system_cost_eur": system_cost}
+    amount = min(PAES_SUBSIDY_CAP_EUR, system_cost * PAES_SUBSIDY_RATE)
+    return {"eligible": True, "amount_eur": round(amount, 2), "system_cost_eur": system_cost}
+
+
+def feasibility_score_residential(
+    ghi: float,
+    kwp: float,
+    orientation: str,
+    shading: str,
+) -> float:
+    """0–100% feasibility score for a residential roof.
+
+    Weights: 30% GHI quality, 30% orientation, 30% shading, 10% kWp scale.
+    """
+    ghi_score = max(0.0, min(1.0, (ghi - 3.5) / 3.0))
+    orient_score = max(
+        0.0,
+        (ROOF_ORIENTATION_DERATE.get(orientation.upper(), 0.6) - 0.6) / 0.4,
+    )
+    shade_score = max(
+        0.0,
+        (ROOF_SHADING_DERATE.get(shading.lower(), 0.5) - 0.5) / 0.5,
+    )
+    kwp_score = max(0.0, min(1.0, (kwp - 1.5) / 8.5))
+    score = (
+        0.30 * ghi_score
+        + 0.30 * orient_score
+        + 0.30 * shade_score
+        + 0.10 * kwp_score
+    )
     return round(score * 100, 1)

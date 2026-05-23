@@ -26,6 +26,7 @@ def render_results(result: dict, lang: str = "EN") -> None:
     st.markdown('<div style="margin-top: 1.5rem;"></div>', unsafe_allow_html=True)
 
     viability = result["viability_class"]
+    is_residential = result.get("site_type") == "residential_roof"
 
     # ── Not Viable (eliminated by gate) ─────────────────────
     if viability == "Not Viable":
@@ -41,12 +42,18 @@ def render_results(result: dict, lang: str = "EN") -> None:
     # ── SVG Gauge — centered at top ─────────────────────────
     _dark_html(svg_gauge_html(result["score"], viability), height=200)
 
-    # ── Primary metrics — kWh + Revenue ─────────────────────
+    # ── Primary metrics — kWh + Revenue/Savings ─────────────
+    kwh_label = (
+        t("est_annual_production", lang) if is_residential else t("annual_kwh", lang)
+    )
+    money_label = (
+        t("annual_savings", lang) if is_residential else t("annual_revenue", lang)
+    )
     m1, m2 = st.columns(2)
     with m1:
         _dark_html(
             metric_card_html(
-                t("annual_kwh", lang),
+                kwh_label,
                 f'{result["annual_kwh"]:,.0f}',
                 icon="⚡",
             ),
@@ -55,12 +62,42 @@ def render_results(result: dict, lang: str = "EN") -> None:
     with m2:
         _dark_html(
             metric_card_html(
-                t("annual_revenue", lang),
+                money_label,
                 f'€{result["revenue_eur"]:,.0f}',
                 icon="💶",
             ),
             height=120,
         )
+
+    # ── Residential extras: System size (kWp) + PAE+S subsidy ─
+    if is_residential:
+        st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
+        r1, r2 = st.columns(2)
+        with r1:
+            _dark_html(
+                metric_card_html(
+                    t("system_size", lang),
+                    f'{result.get("kwp", 0):.2f} kWp',
+                    icon="🔋",
+                ),
+                height=120,
+            )
+        with r2:
+            if result.get("paes_eligible"):
+                paes_value = (
+                    f'{t("paes_eligible_yes", lang)} — '
+                    f'€{result.get("paes_amount_eur", 0):,.0f}'
+                )
+            else:
+                paes_value = t("paes_eligible_no", lang)
+            _dark_html(
+                metric_card_html(
+                    t("paes_subsidy", lang),
+                    paes_value,
+                    icon="🇵🇹",
+                ),
+                height=120,
+            )
 
     # ── Secondary metrics — GHI + Prediction Source ─────────
     st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
@@ -88,12 +125,20 @@ def render_results(result: dict, lang: str = "EN") -> None:
             )
 
     # ── Gate pass details ──────────────────────────────────
-    gates = [
-        t("gate_detail_g1", lang),
-        t("gate_detail_g2", lang),
-        t("gate_detail_g3", lang),
-        t("gate_detail_g4", lang),
-    ]
+    if is_residential:
+        gates = [
+            t("roof_gate_g1", lang),
+            t("roof_gate_g2", lang),
+            t("roof_gate_g3", lang),
+            t("roof_gate_g4", lang),
+        ]
+    else:
+        gates = [
+            t("gate_detail_g1", lang),
+            t("gate_detail_g2", lang),
+            t("gate_detail_g3", lang),
+            t("gate_detail_g4", lang),
+        ]
     _dark_html(gate_pass_html(gates), height=220)
 
     # Flags

@@ -372,13 +372,14 @@ def render_site_inputs(lang: str = "EN") -> dict:
     st.markdown(section_header_html(t("details", lang)), unsafe_allow_html=True)
 
     site_type_labels = {
+        t("residential_roof", lang): "residential_roof",
         t("ground_parcel", lang): "ground_parcel",
         t("commercial_rooftop", lang): "commercial_rooftop",
         t("parking_structure", lang): "parking_structure",
     }
     site_type_keys = list(site_type_labels.keys())
     preq_site = st.session_state.get("_preq_site_type", "")
-    site_type_default_idx = 0
+    site_type_default_idx = 0  # residential_roof — product strategy default
     if preq_site:
         for i, v in enumerate(site_type_labels.values()):
             if v == preq_site:
@@ -395,11 +396,51 @@ def render_site_inputs(lang: str = "EN") -> dict:
     terrain = "flat"
     land_status = "agricultural"
     grid_distance_km = 5.0
+    roof_area_m2 = 0.0
+    orientation = "S"
+    shading = "none"
 
     # Default from drawn polygon (converted to ha for ground, m² for rooftop)
     drawn_area = st.session_state.get("_drawn_area_m2")
 
-    if site_type == "ground_parcel":
+    if site_type == "residential_roof":
+        d1, d2, d3 = st.columns(3)
+        with d1:
+            roof_area_m2 = st.number_input(
+                t("roof_area", lang),
+                min_value=1.0, max_value=500.0,
+                value=80.0, step=5.0,
+            )
+        with d2:
+            orient_options = ["S", "SE", "SW", "E", "W", "N"]
+            orient_labels = {
+                "S": t("orient_s", lang),
+                "SE": t("orient_se", lang),
+                "SW": t("orient_sw", lang),
+                "E": t("orient_e", lang),
+                "W": t("orient_w", lang),
+                "N": t("orient_n", lang),
+            }
+            orientation = st.selectbox(
+                t("roof_orientation", lang),
+                orient_options,
+                format_func=lambda k: orient_labels[k],
+            )
+        with d3:
+            shade_options = ["none", "light", "moderate", "heavy"]
+            shade_labels = {
+                "none": t("shading_none", lang),
+                "light": t("shading_light", lang),
+                "moderate": t("shading_moderate", lang),
+                "heavy": t("shading_heavy", lang),
+            }
+            shading = st.selectbox(
+                t("roof_shading", lang),
+                shade_options,
+                format_func=lambda k: shade_labels[k],
+            )
+        # Residential roof: no grid distance / land_status inputs; defaults above stand.
+    elif site_type == "ground_parcel":
         d1, d2 = st.columns(2)
         with d1:
             parcel_size_ha = st.number_input(
@@ -517,6 +558,9 @@ def render_site_inputs(lang: str = "EN") -> dict:
         "terrain": terrain,
         "land_status": land_status,
         "grid_distance_km": grid_distance_km,
+        "roof_area_m2": roof_area_m2,
+        "orientation": orientation,
+        "shading": shading,
         "ghi": ghi if ghi > 0 else None,
         "dni": dni if dni > 0 else None,
         "temperature": temperature,

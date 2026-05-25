@@ -4,7 +4,7 @@ TRANSLATIONS = {
     "EN": {
         "title": "☀️ RenewView",
         "subtitle": "Find out what your land could earn from solar.",
-        "intro": "Free assessment in under 2 minutes for landowners in Portugal, Spain & Greece.",
+        "intro": "Portugal-focused solar viability preview for property owners.",
         "location": "📍 Property Location",
         "details": "🏗️ Property Details",
         "country": "Country",
@@ -42,19 +42,18 @@ TRANSLATIONS = {
         "flags": "Flags",
         # Sidebar
         "sidebar_about_text": (
-            "**RenewView** uses multi-agent AI to assess solar viability.\n\n"
-            "**Pipeline:**\n"
-            "1. Elimination gates (protected land, grid distance, irradiance)\n"
-            "2. ML classification (Random Forest / Gradient Boosting)\n"
-            "3. Energy & revenue estimation\n\n"
-            "**Data:** NASA POWER API + OpenStreetMap\n\n"
-            "**Regions:** Portugal, Spain, Greece, Italy"
+            "**RenewView** gives property owners in Portugal a quick first look at solar potential.\n\n"
+            "**What it checks:**\n"
+            "1. Property and roof/site basics\n"
+            "2. Local solar conditions\n"
+            "3. Estimated production and financial upside\n\n"
+            "**Designed for:** Portuguese properties"
         ),
         "sidebar_ethics_text": (
-            "- Bias toward data-rich regions (Spain, Italy have more data)\n"
-            "- False positive risk on marginal sites\n"
-            "- Agricultural land conversion trade-offs\n"
-            "- Always consult a professional before investing"
+            "- This is an early screening, not a final engineering survey\n"
+            "- Marginal properties can be over- or under-estimated\n"
+            "- Roof condition, permits, and installer review still matter\n"
+            "- Consult a qualified professional before investing"
         ),
         # Tabs
         "tab_assessment": "🔍 Assessment",
@@ -98,14 +97,13 @@ TRANSLATIONS = {
         # About page
         "about_problem": "## Problem",
         "about_problem_text": (
-            "The EU targets 700 GW solar by 2030, but landowners in Southern Europe "
-            "have no data-driven way to assess land viability before hiring consultants."
+            "Many property owners in Portugal have no simple way to preview solar viability "
+            "before speaking with installers or consultants."
         ),
         "about_solution": "## Solution",
         "about_solution_text": (
-            "A CrewAI-powered pre-screening decision gate that predicts solar feasibility, "
-            "classifies risk tiers, estimates energy output, and connects viable sites to "
-            "regional installers."
+            "A Portugal-focused pre-screening tool that estimates solar feasibility, "
+            "risk tier, energy output, and the next practical steps for viable properties."
         ),
         "about_architecture": "## Architecture",
         "about_architecture_text": (
@@ -117,10 +115,10 @@ TRANSLATIONS = {
         ),
         "about_ethics": "## Ethics & Limitations",
         "about_ethics_text": (
-            "- **Regional bias:** More training data available for Spain and Italy\n"
-            "- **False positives:** Marginal sites may receive optimistic assessments\n"
-            "- **Land conversion:** Solar development on agricultural land has trade-offs\n"
-            "- **Preliminary only:** Always consult a qualified professional"
+            "- **Preliminary only:** This is not a final engineering survey\n"
+            "- **False positives:** Marginal properties may receive optimistic assessments\n"
+            "- **Local constraints:** Permits, roof condition, and installer review still matter\n"
+            "- **Professional review:** Always consult a qualified professional"
         ),
         "about_stack": "## Stack",
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
@@ -179,7 +177,7 @@ TRANSLATIONS = {
     "PT": {
         "title": "☀️ RenewView",
         "subtitle": "Descubra quanto o seu terreno pode render com energia solar.",
-        "intro": "Avaliação gratuita em menos de 2 minutos para proprietários em Portugal, Espanha e Grécia.",
+        "intro": "Pré-visualização de viabilidade solar focada em propriedades em Portugal.",
         "location": "📍 Localização",
         "details": "🏗️ Detalhes da Propriedade",
         "country": "País",
@@ -216,19 +214,18 @@ TRANSLATIONS = {
         "redirect": "Recomendação",
         "flags": "Sinalizações",
         "sidebar_about_text": (
-            "**RenewView** utiliza IA multi-agente para avaliar a viabilidade solar.\n\n"
-            "**Pipeline:**\n"
-            "1. Portões de eliminação (terreno protegido, distância da rede, irradiação)\n"
-            "2. Classificação ML (Random Forest / Gradient Boosting)\n"
-            "3. Estimativa de energia e receita\n\n"
-            "**Dados:** NASA POWER API + OpenStreetMap\n\n"
-            "**Regiões:** Portugal, Espanha, Grécia, Itália"
+            "**RenewView** dá aos proprietários em Portugal uma primeira leitura do potencial solar.\n\n"
+            "**O que verifica:**\n"
+            "1. Dados básicos da propriedade e do telhado/local\n"
+            "2. Condições solares locais\n"
+            "3. Produção estimada e potencial financeiro\n\n"
+            "**Criado para:** propriedades em Portugal"
         ),
         "sidebar_ethics_text": (
-            "- Viés para regiões com mais dados (Espanha, Itália)\n"
-            "- Risco de falsos positivos em locais marginais\n"
-            "- Compensações na conversão de terras agrícolas\n"
-            "- Consulte sempre um profissional antes de investir"
+            "- Esta é uma triagem inicial, não um estudo técnico final\n"
+            "- Propriedades marginais podem ser sobre- ou subestimadas\n"
+            "- Licenças, estado do telhado e revisão por instalador ainda importam\n"
+            "- Consulte um profissional qualificado antes de investir"
         ),
         "tab_assessment": "🔍 Avaliação",
         "tab_about": "ℹ️ Sobre",
@@ -266,14 +263,13 @@ TRANSLATIONS = {
         "detection_terrain_fail": "API de elevação indisponível — terreno estimado pelo país.",
         "about_problem": "## Problema",
         "about_problem_text": (
-            "A UE pretende 700 GW de solar até 2030, mas os proprietários no Sul da Europa "
-            "não têm ferramentas baseadas em dados para avaliar a viabilidade antes de contratar consultores."
+            "Muitos proprietários em Portugal não têm uma forma simples de prever a "
+            "viabilidade solar antes de falar com instaladores ou consultores."
         ),
         "about_solution": "## Solução",
         "about_solution_text": (
-            "Um sistema de pré-triagem baseado em CrewAI que prevê a viabilidade solar, "
-            "classifica níveis de risco, estima a produção de energia e conecta locais viáveis "
-            "a instaladores regionais."
+            "Uma ferramenta de pré-triagem focada em Portugal que estima a viabilidade "
+            "solar, o nível de risco, a produção de energia e os próximos passos práticos."
         ),
         "about_architecture": "## Arquitetura",
         "about_architecture_text": (
@@ -285,10 +281,10 @@ TRANSLATIONS = {
         ),
         "about_ethics": "## Ética e Limitações",
         "about_ethics_text": (
-            "- **Viés regional:** Mais dados de treino para Espanha e Itália\n"
-            "- **Falsos positivos:** Locais marginais podem receber avaliações otimistas\n"
-            "- **Conversão de terrenos:** Desenvolvimento solar em terras agrícolas tem compensações\n"
-            "- **Apenas preliminar:** Consulte sempre um profissional qualificado"
+            "- **Apenas preliminar:** Não substitui um estudo técnico final\n"
+            "- **Falsos positivos:** Propriedades marginais podem receber avaliações otimistas\n"
+            "- **Restrições locais:** Licenças, telhado e revisão por instalador ainda importam\n"
+            "- **Revisão profissional:** Consulte sempre um profissional qualificado"
         ),
         "about_stack": "## Tecnologias",
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
@@ -347,7 +343,7 @@ TRANSLATIONS = {
     "ES": {
         "title": "☀️ RenewView",
         "subtitle": "Descubra cuánto podría rentar su terreno con energía solar.",
-        "intro": "Evaluación gratuita en menos de 2 minutos para propietarios en Portugal, España y Grecia.",
+        "intro": "Vista previa de viabilidad solar enfocada en propiedades en Portugal.",
         "location": "📍 Ubicación",
         "details": "🏗️ Detalles de la Propiedad",
         "country": "País",
@@ -384,19 +380,18 @@ TRANSLATIONS = {
         "redirect": "Recomendación",
         "flags": "Señalizaciones",
         "sidebar_about_text": (
-            "**RenewView** utiliza IA multi-agente para evaluar la viabilidad solar.\n\n"
-            "**Pipeline:**\n"
-            "1. Puertas de eliminación (terreno protegido, distancia a red, irradiación)\n"
-            "2. Clasificación ML (Random Forest / Gradient Boosting)\n"
-            "3. Estimación de energía e ingresos\n\n"
-            "**Datos:** NASA POWER API + OpenStreetMap\n\n"
-            "**Regiones:** Portugal, España, Grecia, Italia"
+            "**RenewView** ofrece a propietarios en Portugal una primera lectura del potencial solar.\n\n"
+            "**Qué revisa:**\n"
+            "1. Datos básicos de la propiedad y del tejado/sitio\n"
+            "2. Condiciones solares locales\n"
+            "3. Producción estimada y potencial financiero\n\n"
+            "**Diseñado para:** propiedades en Portugal"
         ),
         "sidebar_ethics_text": (
-            "- Sesgo hacia regiones con más datos (España, Italia)\n"
-            "- Riesgo de falsos positivos en sitios marginales\n"
-            "- Compensaciones en la conversión de tierras agrícolas\n"
-            "- Consulte siempre a un profesional antes de invertir"
+            "- Es una evaluación inicial, no un estudio técnico final\n"
+            "- Las propiedades marginales pueden sobre- o subestimarse\n"
+            "- Permisos, estado del tejado y revisión del instalador siguen siendo importantes\n"
+            "- Consulte a un profesional cualificado antes de invertir"
         ),
         "tab_assessment": "🔍 Evaluación",
         "tab_about": "ℹ️ Acerca de",
@@ -419,7 +414,7 @@ TRANSLATIONS = {
         "gate_detail_g3": "G3 — Irradiación solar superior a 3,5 kWh/m²/día",
         "gate_detail_g4": "G4 — Tamaño de parcela adecuado",
         "search_address": "Buscar dirección",
-        "search_address_placeholder": "ej. Sevilla, España",
+        "search_address_placeholder": "ej. Faro, Portugal",
         "search_button": "Buscar",
         "searching_address": "Buscando dirección...",
         "address_not_found": "Dirección no encontrada. Intente otra búsqueda.",
@@ -434,14 +429,13 @@ TRANSLATIONS = {
         "detection_terrain_fail": "API de elevación no disponible — terreno estimado por país.",
         "about_problem": "## Problema",
         "about_problem_text": (
-            "La UE apunta a 700 GW de solar para 2030, pero los propietarios en el sur de Europa "
-            "no tienen herramientas basadas en datos para evaluar la viabilidad antes de contratar consultores."
+            "Muchos propietarios en Portugal no tienen una forma sencilla de prever la "
+            "viabilidad solar antes de hablar con instaladores o consultores."
         ),
         "about_solution": "## Solución",
         "about_solution_text": (
-            "Un sistema de pre-evaluación basado en CrewAI que predice la viabilidad solar, "
-            "clasifica niveles de riesgo, estima la producción de energía y conecta sitios viables "
-            "con instaladores regionales."
+            "Una herramienta de pre-evaluación enfocada en Portugal que estima la "
+            "viabilidad solar, el nivel de riesgo, la producción de energía y los próximos pasos."
         ),
         "about_architecture": "## Arquitectura",
         "about_architecture_text": (
@@ -453,10 +447,10 @@ TRANSLATIONS = {
         ),
         "about_ethics": "## Ética y Limitaciones",
         "about_ethics_text": (
-            "- **Sesgo regional:** Más datos de entrenamiento para España e Italia\n"
-            "- **Falsos positivos:** Sitios marginales pueden recibir evaluaciones optimistas\n"
-            "- **Conversión de tierras:** Desarrollo solar en tierras agrícolas tiene compensaciones\n"
-            "- **Solo preliminar:** Consulte siempre a un profesional calificado"
+            "- **Solo preliminar:** No sustituye un estudio técnico final\n"
+            "- **Falsos positivos:** Propiedades marginales pueden recibir evaluaciones optimistas\n"
+            "- **Restricciones locales:** Permisos, tejado y revisión del instalador siguen importando\n"
+            "- **Revisión profesional:** Consulte siempre a un profesional calificado"
         ),
         "about_stack": "## Tecnologías",
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",
@@ -515,7 +509,7 @@ TRANSLATIONS = {
     "EL": {
         "title": "☀️ RenewView",
         "subtitle": "Μάθετε πόσα μπορεί να αποδώσει η γη σας από την ηλιακή ενέργεια.",
-        "intro": "Δωρεάν αξιολόγηση σε λιγότερο από 2 λεπτά για ιδιοκτήτες γης σε Πορτογαλία, Ισπανία και Ελλάδα.",
+        "intro": "Προεπισκόπηση ηλιακής βιωσιμότητας για ακίνητα στην Πορτογαλία.",
         "location": "📍 Τοποθεσία",
         "details": "🏗️ Στοιχεία Ακινήτου",
         "country": "Χώρα",
@@ -552,19 +546,18 @@ TRANSLATIONS = {
         "redirect": "Σύσταση",
         "flags": "Σημειώσεις",
         "sidebar_about_text": (
-            "**RenewView** χρησιμοποιεί AI πολλαπλών πρακτόρων για αξιολόγηση ηλιακής βιωσιμότητας.\n\n"
-            "**Διαδικασία:**\n"
-            "1. Πύλες αποκλεισμού (προστατευόμενη γη, απόσταση δικτύου, ακτινοβολία)\n"
-            "2. Ταξινόμηση ML (Random Forest / Gradient Boosting)\n"
-            "3. Εκτίμηση ενέργειας και εσόδων\n\n"
-            "**Δεδομένα:** NASA POWER API + OpenStreetMap\n\n"
-            "**Περιοχές:** Πορτογαλία, Ισπανία, Ελλάδα, Ιταλία"
+            "**RenewView** δίνει στους ιδιοκτήτες στην Πορτογαλία μια πρώτη εικόνα του ηλιακού δυναμικού.\n\n"
+            "**Τι ελέγχει:**\n"
+            "1. Βασικά στοιχεία ακινήτου και στέγης/χώρου\n"
+            "2. Τοπικές ηλιακές συνθήκες\n"
+            "3. Εκτιμώμενη παραγωγή και οικονομική προοπτική\n\n"
+            "**Σχεδιασμένο για:** ακίνητα στην Πορτογαλία"
         ),
         "sidebar_ethics_text": (
-            "- Προκατάληψη σε περιοχές με πλούσια δεδομένα (Ισπανία, Ιταλία)\n"
-            "- Κίνδυνος ψευδών θετικών σε οριακές τοποθεσίες\n"
-            "- Ανταλλαγές στη μετατροπή γεωργικής γης\n"
-            "- Συμβουλευτείτε πάντα ειδικό πριν επενδύσετε"
+            "- Πρόκειται για αρχικό έλεγχο, όχι τελική τεχνική μελέτη\n"
+            "- Οριακά ακίνητα μπορεί να υπερεκτιμηθούν ή να υποεκτιμηθούν\n"
+            "- Άδειες, κατάσταση στέγης και έλεγχος εγκαταστάτη παραμένουν σημαντικά\n"
+            "- Συμβουλευτείτε εξειδικευμένο επαγγελματία πριν επενδύσετε"
         ),
         "tab_assessment": "🔍 Αξιολόγηση",
         "tab_about": "ℹ️ Σχετικά",
@@ -587,7 +580,7 @@ TRANSLATIONS = {
         "gate_detail_g3": "G3 — Ηλιακή ακτινοβολία πάνω από 3,5 kWh/m²/ημέρα",
         "gate_detail_g4": "G4 — Μέγεθος αγροτεμαχίου επαρκές",
         "search_address": "Αναζήτηση διεύθυνσης",
-        "search_address_placeholder": "π.χ. Αθήνα, Ελλάδα",
+        "search_address_placeholder": "π.χ. Φάρο, Πορτογαλία",
         "search_button": "Αναζήτηση",
         "searching_address": "Αναζήτηση διεύθυνσης...",
         "address_not_found": "Η διεύθυνση δεν βρέθηκε. Δοκιμάστε άλλη αναζήτηση.",
@@ -602,14 +595,13 @@ TRANSLATIONS = {
         "detection_terrain_fail": "API υψομέτρου μη διαθέσιμο — έδαφος εκτιμήθηκε από τη χώρα.",
         "about_problem": "## Πρόβλημα",
         "about_problem_text": (
-            "Η ΕΕ στοχεύει σε 700 GW ηλιακής ενέργειας μέχρι το 2030, αλλά οι ιδιοκτήτες "
-            "στη Νότια Ευρώπη δεν έχουν εργαλεία βασισμένα σε δεδομένα για αξιολόγηση βιωσιμότητας."
+            "Πολλοί ιδιοκτήτες στην Πορτογαλία δεν έχουν απλό τρόπο να εκτιμήσουν "
+            "την ηλιακή βιωσιμότητα πριν μιλήσουν με εγκαταστάτες ή συμβούλους."
         ),
         "about_solution": "## Λύση",
         "about_solution_text": (
-            "Ένα σύστημα προελέγχου βασισμένο σε CrewAI που προβλέπει ηλιακή βιωσιμότητα, "
-            "ταξινομεί επίπεδα κινδύνου, εκτιμά παραγωγή ενέργειας και συνδέει βιώσιμες "
-            "τοποθεσίες με περιφερειακούς εγκαταστάτες."
+            "Ένα εργαλείο προελέγχου εστιασμένο στην Πορτογαλία που εκτιμά ηλιακή "
+            "βιωσιμότητα, επίπεδο κινδύνου, παραγωγή ενέργειας και πρακτικά επόμενα βήματα."
         ),
         "about_architecture": "## Αρχιτεκτονική",
         "about_architecture_text": (
@@ -621,10 +613,10 @@ TRANSLATIONS = {
         ),
         "about_ethics": "## Ηθική & Περιορισμοί",
         "about_ethics_text": (
-            "- **Περιφερειακή προκατάληψη:** Περισσότερα δεδομένα εκπαίδευσης για Ισπανία και Ιταλία\n"
-            "- **Ψευδή θετικά:** Οριακές τοποθεσίες μπορεί να λάβουν αισιόδοξες αξιολογήσεις\n"
-            "- **Μετατροπή γης:** Ηλιακή ανάπτυξη σε γεωργική γη έχει ανταλλαγές\n"
-            "- **Μόνο προκαταρκτική:** Συμβουλευτείτε πάντα ειδικό"
+            "- **Μόνο προκαταρκτική:** Δεν αντικαθιστά τελική τεχνική μελέτη\n"
+            "- **Ψευδή θετικά:** Οριακά ακίνητα μπορεί να λάβουν αισιόδοξες αξιολογήσεις\n"
+            "- **Τοπικοί περιορισμοί:** Άδειες, στέγη και έλεγχος εγκαταστάτη παραμένουν σημαντικά\n"
+            "- **Επαγγελματικός έλεγχος:** Συμβουλευτείτε πάντα ειδικό"
         ),
         "about_stack": "## Τεχνολογίες",
         "about_stack_text": "CrewAI Flow, Python, Pandas, Scikit-Learn, Matplotlib, Seaborn, Streamlit",

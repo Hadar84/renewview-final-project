@@ -275,7 +275,7 @@ def render_site_inputs(lang: str = "EN") -> dict:
 
     folium.Marker(
         [latitude, longitude],
-        icon=folium.Icon(color="green", icon="sun-o", prefix="fa"),
+        icon=folium.Icon(color="orange", icon="sun-o", prefix="fa"),
         popup="Selected location",
     ).add_to(m)
 
@@ -289,9 +289,9 @@ def render_site_inputs(lang: str = "EN") -> dict:
             "marker": False,
             "polygon": {
                 "shapeOptions": {
-                    "color": "#00e05a",
-                    "fillColor": "#00e05a",
-                    "fillOpacity": 0.15,
+                    "color": "#b95f3b",
+                    "fillColor": "#d7b580",
+                    "fillOpacity": 0.22,
                     "weight": 2,
                 },
                 "allowIntersection": False,
@@ -305,9 +305,9 @@ def render_site_inputs(lang: str = "EN") -> dict:
         folium.GeoJson(
             st.session_state["_drawn_geojson"],
             style_function=lambda _: {
-                "color": "#00e05a",
-                "fillColor": "#00e05a",
-                "fillOpacity": 0.15,
+                "color": "#b95f3b",
+                "fillColor": "#d7b580",
+                "fillOpacity": 0.22,
                 "weight": 2,
             },
         ).add_to(m)

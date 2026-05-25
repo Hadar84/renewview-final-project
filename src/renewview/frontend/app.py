@@ -120,10 +120,11 @@ elif st.session_state.step == 2:
 
     st.markdown(
         '<div style="text-align:center; margin-bottom:1rem;">'
-        '<span style="background:rgba(0,224,90,0.1); color:#00e05a; '
+        '<span style="background:#fff9ef; color:#8f5d34; '
         'padding:0.3rem 1rem; border-radius:20px; font-size:0.72rem; '
-        'font-weight:700; letter-spacing:0.1em; text-transform:uppercase; '
-        'border:1px solid rgba(0,224,90,0.25);">'
+        'font-weight:700; letter-spacing:0.08em; text-transform:uppercase; '
+        'border:1px solid rgba(143,93,52,0.22); '
+        'box-shadow:0 8px 20px rgba(71,54,37,0.07);">'
         'STEP 2 OF 3 — Site Details</span></div>',
         unsafe_allow_html=True,
     )
@@ -196,10 +197,11 @@ elif st.session_state.step == 3:
     # Step indicator pill
     st.markdown(
         '<div style="text-align:center; margin-bottom:1rem;">'
-        '<span style="background:rgba(0,224,90,0.1); color:#00e05a; '
+        '<span style="background:#fff9ef; color:#8f5d34; '
         'padding:0.3rem 1rem; border-radius:20px; font-size:0.72rem; '
-        'font-weight:700; letter-spacing:0.1em; text-transform:uppercase; '
-        'border:1px solid rgba(0,224,90,0.25);">'
+        'font-weight:700; letter-spacing:0.08em; text-transform:uppercase; '
+        'border:1px solid rgba(143,93,52,0.22); '
+        'box-shadow:0 8px 20px rgba(71,54,37,0.07);">'
         'STEP 3 OF 3 — Feasibility Report</span></div>',
         unsafe_allow_html=True,
     )
@@ -218,8 +220,8 @@ elif st.session_state.step == 3:
         if result.get("viability_class") != "Not Viable":
             st.markdown(
                 '<div style="margin-top:2rem; padding-top:1.25rem; '
-                'border-top:1px solid rgba(0,224,90,0.15); text-align:center;">'
-                '<p style="color:#e0f0e0; font-size:1rem; line-height:1.5; '
+                'border-top:1px solid rgba(93,73,55,0.13); text-align:center;">'
+                '<p style="color:#453a31; font-size:1rem; line-height:1.5; '
                 'margin:0 auto 0.9rem auto; max-width:620px;">'
                 + t("cta_headline", lang) +
                 '</p></div>',
@@ -231,7 +233,7 @@ elif st.session_state.step == 3:
                 use_container_width=True,
             )
             st.markdown(
-                '<p style="color:#8a9a8a; font-size:0.82rem; text-align:center; '
+                '<p style="color:#8c8174; font-size:0.82rem; text-align:center; '
                 'margin:0.6rem 0 0 0;">'
                 + t("cta_trust", lang) +
                 '</p>',
@@ -240,8 +242,8 @@ elif st.session_state.step == 3:
         else:
             st.markdown(
                 '<div style="margin-top:2rem; padding:1.1rem 1rem; '
-                'border-top:1px solid rgba(0,224,90,0.15); text-align:center;">'
-                '<p style="color:#8a9a8a; font-size:0.9rem; line-height:1.5; '
+                'border-top:1px solid rgba(93,73,55,0.13); text-align:center;">'
+                '<p style="color:#8c8174; font-size:0.9rem; line-height:1.5; '
                 'margin:0 auto; max-width:620px;">'
                 + t("cta_not_viable_note", lang) +
                 '</p></div>',

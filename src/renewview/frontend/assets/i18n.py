@@ -126,6 +126,7 @@ TRANSLATIONS = {
         "about_course_text": "AI Development & Collaboration — Hebrew University 2026 — Dr. Zvi Ben Ami",
         # Pre-qualification (Step 1)
         "prequalify_heading": "Quick Pre-Check",
+        "precheck_note": "Answer three quick details to start a Portugal-focused solar preview.",
         "land_size_question": "How large is your site?",
         "land_size_option_small": "Less than 1 hectare",
         "land_size_option_medium": "1–5 hectares",
@@ -292,6 +293,7 @@ TRANSLATIONS = {
         "about_course_text": "Desenvolvimento de IA e Colaboração — Universidade Hebraica 2026 — Dr. Zvi Ben Ami",
         # Pre-qualification (Step 1)
         "prequalify_heading": "Pré-verificação Rápida",
+        "precheck_note": "Responda a três detalhes rápidos para iniciar uma pré-visualização solar focada em Portugal.",
         "land_size_question": "Qual é o tamanho do seu terreno?",
         "land_size_option_small": "Menos de 1 hectare",
         "land_size_option_medium": "1–5 hectares",
@@ -458,6 +460,7 @@ TRANSLATIONS = {
         "about_course_text": "Desarrollo de IA y Colaboración — Universidad Hebrea 2026 — Dr. Zvi Ben Ami",
         # Pre-qualification (Step 1)
         "prequalify_heading": "Pre-verificación Rápida",
+        "precheck_note": "Responda tres datos rápidos para iniciar una vista previa solar enfocada en Portugal.",
         "land_size_question": "¿Qué tamaño tiene su terreno?",
         "land_size_option_small": "Menos de 1 hectárea",
         "land_size_option_medium": "1–5 hectáreas",
@@ -624,6 +627,7 @@ TRANSLATIONS = {
         "about_course_text": "Ανάπτυξη AI & Συνεργασία — Εβραϊκό Πανεπιστήμιο 2026 — Dr. Zvi Ben Ami",
         # Pre-qualification (Step 1)
         "prequalify_heading": "Γρήγορος Προέλεγχος",
+        "precheck_note": "Απαντήστε σε τρία σύντομα στοιχεία για προεπισκόπηση ηλιακής βιωσιμότητας στην Πορτογαλία.",
         "land_size_question": "Πόσο μεγάλο είναι το οικόπεδό σας;",
         "land_size_option_small": "Λιγότερο από 1 εκτάριο",
         "land_size_option_medium": "1–5 εκτάρια",

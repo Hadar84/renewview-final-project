@@ -22,9 +22,11 @@ section[data-testid="stMain"] {
 }
 
 .block-container {
-    max-width: 1040px;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
+    max-width: 900px;
+    padding-top: 1.5rem;
+    padding-bottom: 3.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
 }
 
 /* ── Sidebar ────────────────────────────────────────────── */
@@ -36,8 +38,8 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] .stMarkdown p,
 section[data-testid="stSidebar"] .stMarkdown li {
     color: #6f665d !important;
-    font-size: 0.9rem;
-    line-height: 1.55;
+    font-size: 0.86rem;
+    line-height: 1.48;
 }
 
 section[data-testid="stSidebar"] h1,
@@ -52,6 +54,28 @@ section[data-testid="stSidebar"] .stSelectbox label {
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
+}
+
+section[data-testid="stSidebar"] .block-container,
+section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
+    padding-top: 1.4rem;
+}
+
+section[data-testid="stSidebar"] div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255, 250, 242, 0.84) !important;
+    border: 1px solid rgba(93, 73, 55, 0.12) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 28px rgba(71, 54, 37, 0.06) !important;
+    padding: 0.2rem !important;
+}
+
+.sidebar-kicker {
+    color: #8f5d34 !important;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0.2rem 0 0.65rem;
 }
 
 /* Sidebar dividers */
@@ -73,6 +97,25 @@ h1 {
 p, li, span, label, .stMarkdown {
     color: #453a31 !important;
     line-height: 1.55;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background:
+        linear-gradient(180deg, rgba(255, 250, 242, 0.96), rgba(255, 249, 239, 0.88)) !important;
+    border: 1px solid rgba(93, 73, 55, 0.13) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 18px 44px rgba(71, 54, 37, 0.09) !important;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] > div {
+    padding: 0.2rem 0.15rem;
+}
+
+.precheck-note {
+    color: #8c8174 !important;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: -0.15rem 0 0.9rem;
 }
 
 /* Category labels — uppercase small */
@@ -331,6 +374,22 @@ button[kind='primary'] p,
     color: #fff9ef !important;
     font-weight: 700 !important;
 }
+
+@media (max-width: 760px) {
+    .block-container {
+        max-width: 100%;
+        padding: 0.85rem 0.9rem 2.4rem;
+    }
+
+    section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
+        padding-top: 0.9rem;
+    }
+
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 16px !important;
+        box-shadow: 0 12px 28px rgba(71, 54, 37, 0.08) !important;
+    }
+}
 </style>
 """
 
@@ -360,61 +419,101 @@ def welcome_hero_html(title: str, subtitle: str, intro: str) -> str:
     return f"""
     <div style="
         position:relative;
-        background:url('{bg_url}') center/cover no-repeat;
+        background:
+            linear-gradient(135deg, rgba(255,249,239,0.98) 0%, rgba(255,249,239,0.92) 47%, rgba(255,249,239,0.22) 48%),
+            url('{bg_url}') center right/cover no-repeat;
         border-radius:20px;
         overflow:hidden;
-        margin:-0.5rem 0 0;
+        margin:0.15rem auto 0;
         padding:0;
         border:1px solid rgba(93,73,55,0.14);
-        box-shadow:0 22px 60px rgba(71,54,37,0.16);
+        box-shadow:0 22px 60px rgba(71,54,37,0.14);
+        min-height:430px;
     ">
         <div style="
-            background:linear-gradient(
-                90deg,
-                rgba(46,38,31,0.66) 0%,
-                rgba(92,73,55,0.45) 54%,
-                rgba(247,241,231,0.28) 100%
-            );
-            padding:4.4rem 2rem 3.4rem;
+            background:linear-gradient(90deg, rgba(255,249,239,0.96) 0%, rgba(255,249,239,0.88) 52%, rgba(46,38,31,0.08) 100%);
+            padding:2.05rem 2rem 1.75rem;
             text-align:left;
+            min-height:430px;
+            display:flex;
+            align-items:stretch;
         ">
             <div style="
-                display:inline-block;
-                max-width:680px;
-                background:rgba(255,249,239,0.92);
-                border:1px solid rgba(255,249,239,0.72);
-                border-radius:18px;
-                padding:1.35rem 1.45rem 1.25rem;
-                box-shadow:0 18px 44px rgba(46,38,31,0.24);
-                backdrop-filter:blur(3px);
+                width:min(100%, 520px);
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
+                gap:1.35rem;
             ">
-                <h1 style="
-                    font-family:Georgia, 'Times New Roman', serif;
-                    font-size:clamp(2.55rem, 7vw, 4.4rem);
-                    font-weight:700;
-                    color:#2e261f !important;
-                    margin:0 0 0.45rem;
-                    line-height:0.98;
-                    letter-spacing:0;
-                ">{title}</h1>
-                <p style="
-                    color:#4a3d32 !important;
-                    font-size:1.18rem;
-                    margin:0 0 0.55rem;
-                    max-width:620px;
-                    line-height:1.45;
-                    font-weight:600;
-                ">{subtitle}</p>
-                <p style="
-                    color:#6f665d !important;
-                    font-size:0.96rem;
-                    line-height:1.6;
-                    max-width:600px;
-                    margin:0;
-                ">{intro}</p>
+                <div>
+                    <div style="
+                        display:inline-flex;
+                        align-items:center;
+                        gap:0.45rem;
+                        color:#8f5d34;
+                        font-size:0.68rem;
+                        font-weight:800;
+                        letter-spacing:0.12em;
+                        text-transform:uppercase;
+                        margin-bottom:1.2rem;
+                    ">Portugal solar preview</div>
+                    <h1 style="
+                        font-family:Georgia, 'Times New Roman', serif;
+                        font-size:clamp(2.85rem, 7vw, 4.85rem);
+                        font-weight:700;
+                        color:#2e261f !important;
+                        margin:0 0 0.65rem;
+                        line-height:0.94;
+                        letter-spacing:0;
+                    ">{title}</h1>
+                    <p style="
+                        color:#3d332b !important;
+                        font-size:1.25rem;
+                        margin:0 0 0.75rem;
+                        max-width:500px;
+                        line-height:1.35;
+                        font-weight:650;
+                    ">{subtitle}</p>
+                    <p style="
+                        color:#6f665d !important;
+                        font-size:0.96rem;
+                        line-height:1.6;
+                        max-width:480px;
+                        margin:0;
+                    ">{intro}</p>
+                </div>
+                <div style="
+                    display:grid;
+                    grid-template-columns:repeat(3, minmax(0, 1fr));
+                    gap:0.65rem;
+                    max-width:480px;
+                ">
+                    <div style="background:#fffaf2;border:1px solid rgba(93,73,55,0.12);border-radius:14px;padding:0.8rem;">
+                        <div style="color:#8f5d34;font-size:1.15rem;font-family:Georgia,serif;font-weight:700;">01</div>
+                        <div style="color:#6f665d;font-size:0.76rem;line-height:1.35;">Property basics</div>
+                    </div>
+                    <div style="background:#fffaf2;border:1px solid rgba(93,73,55,0.12);border-radius:14px;padding:0.8rem;">
+                        <div style="color:#8f5d34;font-size:1.15rem;font-family:Georgia,serif;font-weight:700;">02</div>
+                        <div style="color:#6f665d;font-size:0.76rem;line-height:1.35;">Solar estimate</div>
+                    </div>
+                    <div style="background:#fffaf2;border:1px solid rgba(93,73,55,0.12);border-radius:14px;padding:0.8rem;">
+                        <div style="color:#8f5d34;font-size:1.15rem;font-family:Georgia,serif;font-weight:700;">03</div>
+                        <div style="color:#6f665d;font-size:0.76rem;line-height:1.35;">Report preview</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <style>
+    @media (max-width: 760px) {{
+        div[style*="min-height:430px"] {{
+            min-height: auto !important;
+        }}
+        div[style*="grid-template-columns:repeat(3"] {{
+            grid-template-columns:1fr !important;
+        }}
+    }}
+    </style>
     """
 
 

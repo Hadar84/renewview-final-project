@@ -190,13 +190,14 @@ class PredictionService:
         orientation: str,
         shading: str,
     ) -> dict:
-        """Residential roof branch: roof-specific gates + kWp + savings + PAE+S."""
+        """Residential roof branch: roof-specific gates + kWp + savings + payback + 25yr net."""
         from renewview.backend.gates.elimination_gates import run_residential_roof_gates
         from renewview.backend.services.energy_calculator import (
             feasibility_score_residential,
-            paes_subsidy_estimate,
             residential_annual_kwh,
             residential_annual_savings_eur,
+            residential_net_savings_25yr_eur,
+            residential_payback_years,
             residential_system_kwp,
         )
 
@@ -210,8 +211,6 @@ class PredictionService:
                 "annual_kwh": 0,
                 "revenue_eur": 0,
                 "kwp": kwp,
-                "paes_eligible": False,
-                "paes_amount_eur": 0.0,
                 "eliminated_by": gate_result.eliminated_by,
                 "reason": gate_result.reason,
                 "redirect_to": gate_result.redirect_to,
@@ -225,7 +224,8 @@ class PredictionService:
 
         annual_kwh = residential_annual_kwh(kwp, ghi)
         savings_eur = residential_annual_savings_eur(annual_kwh)
-        paes = paes_subsidy_estimate(kwp, country)
+        payback_years = residential_payback_years(kwp, savings_eur)
+        net_savings_25yr = residential_net_savings_25yr_eur(kwp, savings_eur)
         score = feasibility_score_residential(ghi, kwp, orientation, shading)
         viability_class = self._residential_class(kwp, ghi, orientation, shading)
 
@@ -235,9 +235,8 @@ class PredictionService:
             "annual_kwh": annual_kwh,
             "revenue_eur": savings_eur,
             "kwp": kwp,
-            "paes_eligible": paes["eligible"],
-            "paes_amount_eur": paes["amount_eur"],
-            "paes_system_cost_eur": paes["system_cost_eur"],
+            "payback_years": payback_years,
+            "net_savings_25yr_eur": net_savings_25yr,
             "ghi_used": ghi,
             "eliminated_by": None,
             "reason": None,

@@ -3,9 +3,10 @@
 from renewview.backend.gates.elimination_gates import run_residential_roof_gates
 from renewview.backend.services.energy_calculator import (
     feasibility_score_residential,
-    paes_subsidy_estimate,
     residential_annual_kwh,
     residential_annual_savings_eur,
+    residential_net_savings_25yr_eur,
+    residential_payback_years,
     residential_system_kwp,
 )
 from renewview.backend.services.prediction_service import PredictionService
@@ -57,41 +58,32 @@ def test_annual_savings_at_022_rate():
     assert residential_annual_savings_eur(7756) == 1706.32
 
 
-# ── PAE+S subsidy ────────────────────────────────────────────
+# ── Payback period ──────────────────────────────────────────
 
 
-def test_paes_eligible_capped_at_3000():
-    # 5 kWp → cost 6000, 0.85*6000 = 5100 → capped at 3000
-    r = paes_subsidy_estimate(5.0, "Portugal")
-    assert r["eligible"] is True
-    assert r["amount_eur"] == 3000.0
-    assert r["system_cost_eur"] == 6000.0
+def test_payback_basic():
+    # 5 kWp * 1200 = 6000 install; 1500 €/yr → 4.0 years
+    assert residential_payback_years(5.0, 1500.0) == 4.0
 
 
-def test_paes_eligible_below_cap():
-    # 2 kWp → cost 2400, 0.85*2400 = 2040 (under €3000 cap)
-    r = paes_subsidy_estimate(2.0, "Portugal")
-    assert r["eligible"] is True
-    assert r["amount_eur"] == 2040.0
+def test_payback_rounds_to_1_decimal():
+    # 4 kWp * 1200 = 4800; 1300 €/yr → 3.6923... → 3.7
+    assert residential_payback_years(4.0, 1300.0) == 3.7
 
 
-def test_paes_below_min_kwp():
-    r = paes_subsidy_estimate(1.0, "Portugal")
-    assert r["eligible"] is False
-    assert r["amount_eur"] == 0.0
+# ── 25-year net savings ─────────────────────────────────────
 
 
-def test_paes_above_max_kwp():
-    r = paes_subsidy_estimate(12.0, "Portugal")
-    assert r["eligible"] is False
-    assert r["amount_eur"] == 0.0
+def test_net_savings_25yr_basic():
+    # 5 kWp * 1200 = 6000; 1500 * 25 = 37500; 37500 - 6000 = 31500
+    assert residential_net_savings_25yr_eur(5.0, 1500.0) == 31500
 
 
-def test_paes_non_portugal_country():
-    r = paes_subsidy_estimate(5.0, "Spain")
-    assert r["eligible"] is False
-    assert r["amount_eur"] == 0.0
-    assert r["system_cost_eur"] == 6000.0
+def test_net_savings_25yr_rounds_to_int():
+    # 3 kWp * 1200 = 3600; 1200.40 * 25 = 30010.0; 30010 - 3600 = 26410
+    result = residential_net_savings_25yr_eur(3.0, 1200.40)
+    assert result == 26410
+    assert isinstance(result, int)
 
 
 # ── Roof gates ───────────────────────────────────────────────
@@ -164,20 +156,8 @@ def test_assess_residential_happy_pt():
     assert r["annual_kwh"] > 0
     assert r["revenue_eur"] > 0   # holds savings for residential
     assert r["kwp"] > 0
-    assert "paes_eligible" in r
-
-
-def test_assess_residential_paes_eligible_pt():
-    svc = PredictionService()
-    r = svc.assess_site(
-        latitude=37.0, longitude=-8.0, country="Portugal",
-        site_type="residential_roof",
-        parcel_size_ha=0.0, grid_distance_km=0.0,
-        ghi=5.5,
-        roof_area_m2=40, orientation="S", shading="none",
-    )
-    assert r["paes_eligible"] is True
-    assert r["paes_amount_eur"] > 0
+    assert r["payback_years"] > 0
+    assert r["net_savings_25yr_eur"] > 0
 
 
 def test_assess_residential_not_viable_north():
@@ -205,19 +185,6 @@ def test_assess_residential_not_viable_heavy_shading():
     )
     assert r["viability_class"] == "Not Viable"
     assert r["eliminated_by"] == "G2"
-
-
-def test_assess_residential_non_pt_no_subsidy():
-    svc = PredictionService()
-    r = svc.assess_site(
-        latitude=40.0, longitude=-4.0, country="Spain",
-        site_type="residential_roof",
-        parcel_size_ha=0.0, grid_distance_km=0.0,
-        ghi=5.5,
-        roof_area_m2=80, orientation="S", shading="none",
-    )
-    assert r["paes_eligible"] is False
-    assert r["paes_amount_eur"] == 0.0
 
 
 if __name__ == "__main__":

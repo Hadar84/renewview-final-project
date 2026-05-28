@@ -139,7 +139,7 @@ TRANSLATIONS = {
         # Step 2 advanced toggle
         "advanced_coords": "Advanced: Manual coordinates",
         # Step 3 paid report CTA
-        "cta_headline": "Your full personalized subsidy + installer report, delivered by email within 24 hours.",
+        "cta_headline": "Your full personalized solar potential + installer report, delivered by email within 24 hours.",
         "cta_button": "Get my €29 detailed report →",
         "cta_trust": "Secure checkout by Lemon Squeezy. EU VAT included.",
         "cta_not_viable_note": (
@@ -166,9 +166,13 @@ TRANSLATIONS = {
         "est_annual_production": "Est. Annual Production",
         "annual_savings": "Est. Annual Savings",
         "system_size": "System Size",
-        "paes_subsidy": "PAE+S Subsidy",
-        "paes_eligible_yes": "Eligible",
-        "paes_eligible_no": "Not Eligible",
+        "payback_period": "Payback Period",
+        "years_unit": "years",
+        "net_savings_25yr": "25-Year Net Savings",
+        "local_incentives_note": (
+            "Many regions offer solar incentives or financing. "
+            "Check with your local authority or energy provider for what's available where you live."
+        ),
         # Residential roof — gate descriptions
         "roof_gate_g1": "G1 — Roof orientation usable for solar",
         "roof_gate_g2": "G2 — Shading level acceptable",
@@ -306,7 +310,7 @@ TRANSLATIONS = {
         # Step 2 advanced toggle
         "advanced_coords": "Avançado: Coordenadas manuais",
         # Step 3 paid report CTA
-        "cta_headline": "O seu relatório completo e personalizado de subsídios + instaladores, entregue por email em 24 horas.",
+        "cta_headline": "O seu relatório completo e personalizado de potencial solar + instaladores, entregue por email em 24 horas.",
         "cta_button": "Obter o meu relatório detalhado €29 →",
         "cta_trust": "Checkout seguro via Lemon Squeezy. IVA da UE incluído.",
         "cta_not_viable_note": (
@@ -333,9 +337,13 @@ TRANSLATIONS = {
         "est_annual_production": "Produção Anual Est.",
         "annual_savings": "Poupança Anual Est.",
         "system_size": "Tamanho do Sistema",
-        "paes_subsidy": "Subsídio PAE+S",
-        "paes_eligible_yes": "Elegível",
-        "paes_eligible_no": "Não Elegível",
+        "payback_period": "Período de Retorno",
+        "years_unit": "anos",
+        "net_savings_25yr": "Poupança Líquida 25 Anos",
+        "local_incentives_note": (
+            "Muitas regiões oferecem incentivos ou financiamento para energia solar. "
+            "Verifique junto da sua autarquia ou fornecedor de energia o que está disponível na sua zona."
+        ),
         # Residential roof — gate descriptions
         "roof_gate_g1": "G1 — Orientação do telhado adequada para solar",
         "roof_gate_g2": "G2 — Nível de sombreamento aceitável",
@@ -473,7 +481,7 @@ TRANSLATIONS = {
         # Step 2 advanced toggle
         "advanced_coords": "Avanzado: Coordenadas manuales",
         # Step 3 paid report CTA
-        "cta_headline": "Su informe completo y personalizado de subvenciones + instaladores, entregado por email en 24 horas.",
+        "cta_headline": "Su informe completo y personalizado de potencial solar + instaladores, entregado por email en 24 horas.",
         "cta_button": "Obtener mi informe detallado €29 →",
         "cta_trust": "Pago seguro con Lemon Squeezy. IVA de la UE incluido.",
         "cta_not_viable_note": (
@@ -500,9 +508,13 @@ TRANSLATIONS = {
         "est_annual_production": "Producción Anual Est.",
         "annual_savings": "Ahorro Anual Est.",
         "system_size": "Tamaño del Sistema",
-        "paes_subsidy": "Subvención PAE+S",
-        "paes_eligible_yes": "Elegible",
-        "paes_eligible_no": "No Elegible",
+        "payback_period": "Periodo de Amortización",
+        "years_unit": "años",
+        "net_savings_25yr": "Ahorro Neto 25 Años",
+        "local_incentives_note": (
+            "Muchas regiones ofrecen incentivos o financiación para energía solar. "
+            "Consulte con su administración local o proveedor de energía qué opciones existen en su zona."
+        ),
         # Residential roof — gate descriptions
         "roof_gate_g1": "G1 — Orientación del tejado adecuada para solar",
         "roof_gate_g2": "G2 — Nivel de sombra aceptable",
@@ -640,7 +652,7 @@ TRANSLATIONS = {
         # Step 2 advanced toggle
         "advanced_coords": "Για προχωρημένους: Χειροκίνητες συντεταγμένες",
         # Step 3 paid report CTA
-        "cta_headline": "Η πλήρης εξατομικευμένη αναφορά σας για επιδοτήσεις + εγκαταστάτες, παραδίδεται μέσω email εντός 24 ωρών.",
+        "cta_headline": "Η πλήρης εξατομικευμένη αναφορά σας για ηλιακό δυναμικό + εγκαταστάτες, παραδίδεται μέσω email εντός 24 ωρών.",
         "cta_button": "Λάβετε την αναλυτική μου αναφορά €29 →",
         "cta_trust": "Ασφαλής πληρωμή μέσω Lemon Squeezy. Συμπεριλαμβάνεται ΦΠΑ ΕΕ.",
         "cta_not_viable_note": (
@@ -667,9 +679,13 @@ TRANSLATIONS = {
         "est_annual_production": "Εκτ. Ετήσια Παραγωγή",
         "annual_savings": "Εκτ. Ετήσια Εξοικονόμηση",
         "system_size": "Μέγεθος Συστήματος",
-        "paes_subsidy": "Επιδότηση PAE+S",
-        "paes_eligible_yes": "Επιλέξιμο",
-        "paes_eligible_no": "Μη Επιλέξιμο",
+        "payback_period": "Περίοδος Απόσβεσης",
+        "years_unit": "έτη",
+        "net_savings_25yr": "Καθαρή Εξοικονόμηση 25 Ετών",
+        "local_incentives_note": (
+            "Πολλές περιοχές προσφέρουν κίνητρα ή χρηματοδότηση για ηλιακή ενέργεια. "
+            "Επικοινωνήστε με την τοπική αρχή ή τον πάροχο ενέργειας σας για να μάθετε τι είναι διαθέσιμο στην περιοχή σας."
+        ),
         # Residential roof — gate descriptions
         "roof_gate_g1": "G1 — Ο προσανατολισμός της στέγης είναι κατάλληλος",
         "roof_gate_g2": "G2 — Αποδεκτό επίπεδο σκίασης",

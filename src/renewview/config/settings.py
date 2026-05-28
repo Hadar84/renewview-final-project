@@ -81,13 +81,9 @@ RESIDENTIAL_KWH_RATE_EUR = 0.22         # avg PT residential retail (used as sav
 ROOF_GATE_MIN_KWP = 1.5
 ROOF_GATE_MAX_KWP = 15.0
 
-# ── Portugal PAE+S Subsidy ──────────────────────────────────
-PAES_ELIGIBLE_COUNTRY = "Portugal"
-PAES_MIN_KWP = 1.5
-PAES_MAX_KWP = 10.0
-PAES_SUBSIDY_RATE = 0.85                # 85% of system cost
-PAES_SUBSIDY_CAP_EUR = 3000.0
-RESIDENTIAL_INSTALL_COST_PER_KWP = 1200.0  # typical PT residential turnkey
+# ── Residential Economics ──────────────────────────────────
+RESIDENTIAL_INSTALL_COST_PER_KWP = 1200.0  # typical residential turnkey
+NET_SAVINGS_HORIZON_YEARS = 25
 
 # ── NASA POWER API Parameters ──────────────────────────────
 NASA_POWER_PARAMS = (

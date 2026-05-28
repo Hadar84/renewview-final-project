@@ -42,38 +42,11 @@ def render_results(result: dict, lang: str = "EN") -> None:
     # ── SVG Gauge — centered at top ─────────────────────────
     _dark_html(svg_gauge_html(result["score"], viability), height=200)
 
-    # ── Primary metrics — kWh + Revenue/Savings ─────────────
-    kwh_label = (
-        t("est_annual_production", lang) if is_residential else t("annual_kwh", lang)
-    )
-    money_label = (
-        t("annual_savings", lang) if is_residential else t("annual_revenue", lang)
-    )
-    m1, m2 = st.columns(2)
-    with m1:
-        _dark_html(
-            metric_card_html(
-                kwh_label,
-                f'{result["annual_kwh"]:,.0f}',
-                icon="⚡",
-            ),
-            height=120,
-        )
-    with m2:
-        _dark_html(
-            metric_card_html(
-                money_label,
-                f'€{result["revenue_eur"]:,.0f}',
-                icon="💶",
-            ),
-            height=120,
-        )
-
-    # ── Residential extras: System size (kWp) + PAE+S subsidy ─
+    # ── Primary metrics ─────────────────────────────────────
     if is_residential:
-        st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
-        r1, r2 = st.columns(2)
-        with r1:
+        # Row 1: System Size · Annual Production · Annual Savings
+        c1, c2, c3 = st.columns(3)
+        with c1:
             _dark_html(
                 metric_card_html(
                     t("system_size", lang),
@@ -82,19 +55,62 @@ def render_results(result: dict, lang: str = "EN") -> None:
                 ),
                 height=120,
             )
-        with r2:
-            if result.get("paes_eligible"):
-                paes_value = (
-                    f'{t("paes_eligible_yes", lang)} — '
-                    f'€{result.get("paes_amount_eur", 0):,.0f}'
-                )
-            else:
-                paes_value = t("paes_eligible_no", lang)
+        with c2:
             _dark_html(
                 metric_card_html(
-                    t("paes_subsidy", lang),
-                    paes_value,
-                    icon="🇵🇹",
+                    t("est_annual_production", lang),
+                    f'{result["annual_kwh"]:,.0f}',
+                    icon="⚡",
+                ),
+                height=120,
+            )
+        with c3:
+            _dark_html(
+                metric_card_html(
+                    t("annual_savings", lang),
+                    f'€{result["revenue_eur"]:,.0f}',
+                    icon="💶",
+                ),
+                height=120,
+            )
+        # Row 2: Payback Period · 25-Year Net Savings
+        st.markdown('<div style="margin-top: 0.8rem;"></div>', unsafe_allow_html=True)
+        c4, c5 = st.columns(2)
+        with c4:
+            _dark_html(
+                metric_card_html(
+                    t("payback_period", lang),
+                    f'{result.get("payback_years", 0):.1f} {t("years_unit", lang)}',
+                    icon="⏱",
+                ),
+                height=120,
+            )
+        with c5:
+            _dark_html(
+                metric_card_html(
+                    t("net_savings_25yr", lang),
+                    f'€{result.get("net_savings_25yr_eur", 0):,.0f}',
+                    icon="📈",
+                ),
+                height=120,
+            )
+    else:
+        m1, m2 = st.columns(2)
+        with m1:
+            _dark_html(
+                metric_card_html(
+                    t("annual_kwh", lang),
+                    f'{result["annual_kwh"]:,.0f}',
+                    icon="⚡",
+                ),
+                height=120,
+            )
+        with m2:
+            _dark_html(
+                metric_card_html(
+                    t("annual_revenue", lang),
+                    f'€{result["revenue_eur"]:,.0f}',
+                    icon="💶",
                 ),
                 height=120,
             )
@@ -167,4 +183,15 @@ def render_results(result: dict, lang: str = "EN") -> None:
             '\U0001f517 Get a Quote \u2014 Connect with Regional Installer'
             '</div></a>',
             height=70,
+        )
+
+    # \u2500\u2500 Local incentives note (residential, small muted text) \u2500
+    if is_residential:
+        st.markdown(
+            f'<div style="margin-top:1.2rem; color:#8c8174; '
+            f'font-size:0.85rem; line-height:1.5; text-align:center; '
+            f'opacity:0.85; padding:0 0.5rem;">'
+            f'{t("local_incentives_note", lang)}'
+            f'</div>',
+            unsafe_allow_html=True,
         )

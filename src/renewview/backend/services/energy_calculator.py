@@ -8,11 +8,6 @@ from renewview.config.settings import (
     FEED_IN_TARIFFS,
     GROUND_COVERAGE_RATIO,
     PANEL_EFFICIENCY,
-    PAES_ELIGIBLE_COUNTRY,
-    PAES_MAX_KWP,
-    PAES_MIN_KWP,
-    PAES_SUBSIDY_CAP_EUR,
-    PAES_SUBSIDY_RATE,
     PERFORMANCE_RATIO,
     RESIDENTIAL_INSTALL_COST_PER_KWP,
     RESIDENTIAL_KWH_RATE_EUR,
@@ -150,19 +145,26 @@ def residential_annual_savings_eur(annual_kwh: float) -> float:
     return round(annual_kwh * RESIDENTIAL_KWH_RATE_EUR, 2)
 
 
-def paes_subsidy_estimate(kwp: float, country: str) -> dict:
-    """Estimate Portugal PAE+S subsidy eligibility and amount.
+def residential_payback_years(kwp: float, annual_savings_eur: float) -> float:
+    """Simple payback period in years for a residential system.
 
-    Eligible only when country == Portugal and 1.5 <= kWp <= 10.
-    Subsidy = min(€3,000, system_cost * 0.85) where system_cost = kWp * €1,200.
+    Formula: (kwp * RESIDENTIAL_INSTALL_COST_PER_KWP) / annual_savings_eur
+    Country-agnostic — depends only on system size, install cost, and savings.
     """
-    system_cost = round(kwp * RESIDENTIAL_INSTALL_COST_PER_KWP, 2)
-    if country != PAES_ELIGIBLE_COUNTRY:
-        return {"eligible": False, "amount_eur": 0.0, "system_cost_eur": system_cost}
-    if kwp < PAES_MIN_KWP or kwp > PAES_MAX_KWP:
-        return {"eligible": False, "amount_eur": 0.0, "system_cost_eur": system_cost}
-    amount = min(PAES_SUBSIDY_CAP_EUR, system_cost * PAES_SUBSIDY_RATE)
-    return {"eligible": True, "amount_eur": round(amount, 2), "system_cost_eur": system_cost}
+    install_cost = kwp * RESIDENTIAL_INSTALL_COST_PER_KWP
+    return round(install_cost / annual_savings_eur, 1)
+
+
+def residential_net_savings_25yr_eur(kwp: float, annual_savings_eur: float) -> int:
+    """Net savings over the marketing horizon, rounded to nearest euro.
+
+    Formula: (annual_savings_eur * NET_SAVINGS_HORIZON_YEARS) - install_cost
+    Country-agnostic.
+    """
+    from renewview.config.settings import NET_SAVINGS_HORIZON_YEARS
+
+    install_cost = kwp * RESIDENTIAL_INSTALL_COST_PER_KWP
+    return round(annual_savings_eur * NET_SAVINGS_HORIZON_YEARS - install_cost)
 
 
 def feasibility_score_residential(

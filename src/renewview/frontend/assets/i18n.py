@@ -178,6 +178,52 @@ TRANSLATIONS = {
         "roof_gate_g2": "G2 — Shading level acceptable",
         "roof_gate_g3": "G3 — Solar irradiance above 3.5 kWh/m²/day",
         "roof_gate_g4": "G4 — System size in viable range (1.5–15 kWp)",
+        # PDF report — €29 deliverable (emoji-free; DejaVuSans-safe)
+        "pdf_report_title": "Your Solar Potential Report",
+        "pdf_label_date": "Date",
+        "pdf_label_customer": "Prepared for",
+        "pdf_label_location": "Property location",
+        "pdf_section_summary": "Summary",
+        "pdf_label_viability": "Viability",
+        "pdf_label_score": "Score",
+        "pdf_label_system_size": "System size",
+        "pdf_unit_kwp": "kWp",
+        "pdf_label_panels_approx": "Approximate panel count",
+        "pdf_label_orientation": "Roof orientation",
+        "pdf_label_shading": "Shading",
+        "pdf_shading_none": "None",
+        "pdf_shading_light": "Light",
+        "pdf_shading_moderate": "Moderate",
+        "pdf_shading_heavy": "Heavy",
+        "pdf_section_money": "Estimated economics",
+        "pdf_label_annual_production": "Estimated annual production",
+        "pdf_unit_kwh_year": "kWh / year",
+        "pdf_label_annual_savings": "Estimated annual savings",
+        "pdf_label_payback": "Payback period",
+        "pdf_unit_years": "years",
+        "pdf_label_25yr_net": "25-year net savings",
+        "pdf_section_methodology": "How we calculated this",
+        "pdf_body_methodology": (
+            "Production is estimated from NASA POWER solar irradiance data for your location, "
+            "an installable density of about {w_per_m2} W per usable m² of roof, and a 25-year "
+            "operating horizon. Savings use an electricity rate of {rate}; payback uses an "
+            "installed cost of {cost}. These figures are ESTIMATES, not engineering numbers — "
+            "actual results depend on roof condition, equipment chosen, local permits, and your tariff."
+        ),
+        "pdf_section_next_step": "Next step — get a real quote",
+        "pdf_body_next_step": (
+            "To get an exact installation quote, reply to the email this report came in. "
+            "We'll connect you with a local installer who can survey your roof and price the system."
+        ),
+        "pdf_body_disclaimer": (
+            "This is a preliminary estimate, not an engineering survey. Always consult a qualified "
+            "professional before purchasing or installing a solar system. Figures depend on roof "
+            "condition, equipment, permits, and the actual electricity tariff at the time of installation."
+        ),
+        "pdf_viability_high": "High",
+        "pdf_viability_medium": "Medium",
+        "pdf_viability_low": "Low",
+        "pdf_viability_not_viable": "Not Viable",
     },
     "PT": {
         "title": "☀️ RenewView",
@@ -349,6 +395,55 @@ TRANSLATIONS = {
         "roof_gate_g2": "G2 — Nível de sombreamento aceitável",
         "roof_gate_g3": "G3 — Irradiação solar acima de 3,5 kWh/m²/dia",
         "roof_gate_g4": "G4 — Tamanho do sistema viável (1,5–15 kWp)",
+        # PDF report — entrega de €29 (sem emojis; compatível com DejaVuSans)
+        "pdf_report_title": "Relatório do Potencial Solar",
+        "pdf_label_date": "Data",
+        "pdf_label_customer": "Preparado para",
+        "pdf_label_location": "Localização da propriedade",
+        "pdf_section_summary": "Resumo",
+        "pdf_label_viability": "Viabilidade",
+        "pdf_label_score": "Pontuação",
+        "pdf_label_system_size": "Tamanho do sistema",
+        "pdf_unit_kwp": "kWp",
+        "pdf_label_panels_approx": "Número aproximado de painéis",
+        "pdf_label_orientation": "Orientação do telhado",
+        "pdf_label_shading": "Sombreamento",
+        "pdf_shading_none": "Nenhum",
+        "pdf_shading_light": "Ligeiro",
+        "pdf_shading_moderate": "Moderado",
+        "pdf_shading_heavy": "Forte",
+        "pdf_section_money": "Estimativa económica",
+        "pdf_label_annual_production": "Produção anual estimada",
+        "pdf_unit_kwh_year": "kWh / ano",
+        "pdf_label_annual_savings": "Poupança anual estimada",
+        "pdf_label_payback": "Período de retorno",
+        "pdf_unit_years": "anos",
+        "pdf_label_25yr_net": "Poupança líquida em 25 anos",
+        "pdf_section_methodology": "Como calculámos",
+        "pdf_body_methodology": (
+            "A produção é estimada a partir de dados de irradiância solar NASA POWER para a sua "
+            "localização, uma densidade instalável de cerca de {w_per_m2} W por m² de telhado "
+            "utilizável e um horizonte de operação de 25 anos. A poupança usa uma tarifa de "
+            "eletricidade de {rate}; o retorno usa um custo de instalação de {cost}. Estes valores "
+            "são ESTIMATIVAS, não números de engenharia — os resultados reais dependem do estado "
+            "do telhado, do equipamento escolhido, das licenças locais e da sua tarifa."
+        ),
+        "pdf_section_next_step": "Próximo passo — obter um orçamento real",
+        "pdf_body_next_step": (
+            "Para obter um orçamento exato de instalação, responda ao email com que recebeu este "
+            "relatório. Vamos colocá-lo em contacto com um instalador local que pode avaliar o seu "
+            "telhado e orçamentar o sistema."
+        ),
+        "pdf_body_disclaimer": (
+            "Esta é uma estimativa preliminar, não uma avaliação de engenharia. Consulte sempre um "
+            "profissional qualificado antes de comprar ou instalar um sistema solar. Os valores "
+            "dependem do estado do telhado, do equipamento, das licenças e da tarifa de eletricidade "
+            "real no momento da instalação."
+        ),
+        "pdf_viability_high": "Alta",
+        "pdf_viability_medium": "Média",
+        "pdf_viability_low": "Baixa",
+        "pdf_viability_not_viable": "Não Viável",
     },
     "ES": {
         "title": "☀️ RenewView",
@@ -520,6 +615,55 @@ TRANSLATIONS = {
         "roof_gate_g2": "G2 — Nivel de sombra aceptable",
         "roof_gate_g3": "G3 — Irradiación solar superior a 3,5 kWh/m²/día",
         "roof_gate_g4": "G4 — Tamaño del sistema viable (1,5–15 kWp)",
+        # PDF report — entrega de €29 (sin emojis; compatible con DejaVuSans)
+        "pdf_report_title": "Informe de Potencial Solar",
+        "pdf_label_date": "Fecha",
+        "pdf_label_customer": "Preparado para",
+        "pdf_label_location": "Ubicación de la propiedad",
+        "pdf_section_summary": "Resumen",
+        "pdf_label_viability": "Viabilidad",
+        "pdf_label_score": "Puntuación",
+        "pdf_label_system_size": "Tamaño del sistema",
+        "pdf_unit_kwp": "kWp",
+        "pdf_label_panels_approx": "Número aproximado de paneles",
+        "pdf_label_orientation": "Orientación del tejado",
+        "pdf_label_shading": "Sombra",
+        "pdf_shading_none": "Ninguna",
+        "pdf_shading_light": "Ligera",
+        "pdf_shading_moderate": "Moderada",
+        "pdf_shading_heavy": "Intensa",
+        "pdf_section_money": "Economía estimada",
+        "pdf_label_annual_production": "Producción anual estimada",
+        "pdf_unit_kwh_year": "kWh / año",
+        "pdf_label_annual_savings": "Ahorro anual estimado",
+        "pdf_label_payback": "Periodo de amortización",
+        "pdf_unit_years": "años",
+        "pdf_label_25yr_net": "Ahorro neto a 25 años",
+        "pdf_section_methodology": "Cómo lo hemos calculado",
+        "pdf_body_methodology": (
+            "La producción se estima a partir de datos de irradiancia solar NASA POWER para su "
+            "ubicación, una densidad instalable de aproximadamente {w_per_m2} W por m² de tejado "
+            "útil y un horizonte operativo de 25 años. El ahorro usa una tarifa eléctrica de "
+            "{rate}; la amortización usa un coste de instalación de {cost}. Estos valores son "
+            "ESTIMACIONES, no cifras de ingeniería — los resultados reales dependen del estado "
+            "del tejado, del equipo elegido, de los permisos locales y de su tarifa."
+        ),
+        "pdf_section_next_step": "Siguiente paso — obtener un presupuesto real",
+        "pdf_body_next_step": (
+            "Para obtener un presupuesto exacto de instalación, responda al correo con el que "
+            "recibió este informe. Le pondremos en contacto con un instalador local que pueda "
+            "inspeccionar su tejado y presupuestar el sistema."
+        ),
+        "pdf_body_disclaimer": (
+            "Esta es una estimación preliminar, no una inspección de ingeniería. Consulte siempre "
+            "a un profesional cualificado antes de comprar o instalar un sistema solar. Los valores "
+            "dependen del estado del tejado, del equipo, de los permisos y de la tarifa eléctrica "
+            "real en el momento de la instalación."
+        ),
+        "pdf_viability_high": "Alta",
+        "pdf_viability_medium": "Media",
+        "pdf_viability_low": "Baja",
+        "pdf_viability_not_viable": "No Viable",
     },
     "EL": {
         "title": "☀️ RenewView",
@@ -691,6 +835,55 @@ TRANSLATIONS = {
         "roof_gate_g2": "G2 — Αποδεκτό επίπεδο σκίασης",
         "roof_gate_g3": "G3 — Ηλιακή ακτινοβολία πάνω από 3,5 kWh/m²/ημέρα",
         "roof_gate_g4": "G4 — Μέγεθος συστήματος σε βιώσιμο εύρος (1,5–15 kWp)",
+        # PDF report — παράδοση €29 (χωρίς emoji; συμβατό με DejaVuSans)
+        "pdf_report_title": "Αναφορά Ηλιακού Δυναμικού",
+        "pdf_label_date": "Ημερομηνία",
+        "pdf_label_customer": "Προετοιμασμένο για",
+        "pdf_label_location": "Τοποθεσία ακινήτου",
+        "pdf_section_summary": "Σύνοψη",
+        "pdf_label_viability": "Βιωσιμότητα",
+        "pdf_label_score": "Βαθμολογία",
+        "pdf_label_system_size": "Μέγεθος συστήματος",
+        "pdf_unit_kwp": "kWp",
+        "pdf_label_panels_approx": "Κατά προσέγγιση αριθμός πάνελ",
+        "pdf_label_orientation": "Προσανατολισμός στέγης",
+        "pdf_label_shading": "Σκίαση",
+        "pdf_shading_none": "Καμία",
+        "pdf_shading_light": "Ελαφριά",
+        "pdf_shading_moderate": "Μέτρια",
+        "pdf_shading_heavy": "Έντονη",
+        "pdf_section_money": "Εκτιμώμενα οικονομικά",
+        "pdf_label_annual_production": "Εκτιμώμενη ετήσια παραγωγή",
+        "pdf_unit_kwh_year": "kWh / έτος",
+        "pdf_label_annual_savings": "Εκτιμώμενη ετήσια εξοικονόμηση",
+        "pdf_label_payback": "Περίοδος απόσβεσης",
+        "pdf_unit_years": "έτη",
+        "pdf_label_25yr_net": "Καθαρή εξοικονόμηση 25 ετών",
+        "pdf_section_methodology": "Πώς το υπολογίσαμε",
+        "pdf_body_methodology": (
+            "Η παραγωγή εκτιμάται από δεδομένα ηλιακής ακτινοβολίας NASA POWER για την τοποθεσία "
+            "σας, μια εγκατεστημένη πυκνότητα περίπου {w_per_m2} W ανά αξιοποιήσιμο m² στέγης και "
+            "ορίζοντα λειτουργίας 25 ετών. Η εξοικονόμηση χρησιμοποιεί τιμή ηλεκτρικής ενέργειας "
+            "{rate}· η απόσβεση χρησιμοποιεί κόστος εγκατάστασης {cost}. Αυτές οι τιμές είναι "
+            "ΕΚΤΙΜΗΣΕΙΣ, όχι μηχανικοί υπολογισμοί — τα πραγματικά αποτελέσματα εξαρτώνται από την "
+            "κατάσταση της στέγης, τον εξοπλισμό, τις τοπικές άδειες και την τιμολόγησή σας."
+        ),
+        "pdf_section_next_step": "Επόμενο βήμα — λάβετε πραγματική προσφορά",
+        "pdf_body_next_step": (
+            "Για να λάβετε ακριβή προσφορά εγκατάστασης, απαντήστε στο email με το οποίο λάβατε "
+            "αυτήν την αναφορά. Θα σας συνδέσουμε με έναν τοπικό εγκαταστάτη που μπορεί να "
+            "εξετάσει τη στέγη σας και να προσφέρει τιμή για το σύστημα."
+        ),
+        "pdf_body_disclaimer": (
+            "Πρόκειται για προκαταρκτική εκτίμηση, όχι για μηχανική μελέτη. Συμβουλευτείτε πάντα "
+            "έναν εξειδικευμένο επαγγελματία πριν αγοράσετε ή εγκαταστήσετε ηλιακό σύστημα. Οι "
+            "τιμές εξαρτώνται από την κατάσταση της στέγης, τον εξοπλισμό, τις άδειες και την "
+            "πραγματική τιμή ηλεκτρικής ενέργειας τη στιγμή της εγκατάστασης."
+        ),
+        "pdf_viability_high": "Υψηλή",
+        "pdf_viability_medium": "Μέτρια",
+        "pdf_viability_low": "Χαμηλή",
+        "pdf_viability_not_viable": "Μη Βιώσιμη",
     },
 }
 

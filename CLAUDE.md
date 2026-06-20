@@ -133,3 +133,64 @@ python -c "from renewview.flow import RenewViewFlow; RenewViewFlow().plot('flow'
 3. `config/settings.py` — all constants and thresholds
 4. `backend/gates/elimination_gates.py` — core business logic
 5. `flow.py` — pipeline orchestration
+
+---
+
+# Launch handoff — read this before touching launch work
+
+> This section is the single source of truth for shipping the paid product. It exists so any
+> future session has full context without the author re-explaining. Keep it updated as tasks close.
+
+## Product being launched
+
+The **€29 RenewView residential solar report** — a one-page PDF that tells a homeowner whether
+their roof is worth going solar, with kWp sizing, annual kWh, € savings, and payback.
+
+- **Storefront / payment:** Lemon Squeezy (hosted checkout, no card handling on our side).
+- **Live app:** Streamlit Cloud (auto-deploys from `main`). The app sells the report; the report
+  itself is generated and delivered by hand for now (see manual-delivery model below).
+
+## The three remaining launch tasks
+
+| # | Task | Status | Notes |
+|---|------|--------|-------|
+| 1 | **Map fix** — Step 2 map renders near-black on dark CARTO tiles | ✅ Done (commit `0aece03`) | Switched to Esri World Imagery satellite tiles via `MAP_TILE_PROVIDER` / `MAP_TILE_ATTR` in `settings.py`. Customers can now see their roof. |
+| 2 | **€1 test transaction** | 🔲 To do | Put a temporary €1 variant live in Lemon Squeezy, buy it end-to-end with a real card, confirm the order webhook/email arrives, then run the manual delivery flow against that order. Remove/disable the €1 variant before public launch. Goal: prove checkout → notification → delivery works before real money. |
+| 3 | **Launch posts** | 🔲 To do | Publish the launch announcements (the homeowner-facing posts driving traffic to the Lemon Squeezy checkout). Go live only after task 2 passes. |
+
+## Manual-delivery model (first ~10 orders)
+
+Delivery is **deliberately manual** until ~10 orders prove demand. Do NOT build automated
+fulfilment before then — it is wasted work if the offer doesn't sell.
+
+Per order, the loop is:
+1. Lemon Squeezy emails the order (name, email, and whatever roof details the customer provided).
+2. Run the delivery CLI:
+   ```bash
+   python scripts/generate_report.py \
+       --name "Maria Silva" --email maria@example.pt \
+       --location "Faro, Portugal" --country Portugal \
+       --lat 37.0179 --lon -7.9304 \
+       --roof-area-m2 80 --orientation S --shading light
+   ```
+   Or run it with no arguments for an interactive one-field-at-a-time prompt.
+3. Output PDF lands at `~/renewview-outputs/reports/customers/<slug>_<YYYY-MM-DD>.pdf`.
+4. Email the PDF back to the customer manually.
+
+Notes:
+- The CLI uses the same backend `PredictionService` + `report_generator` as the app, so the
+  numbers match what the customer saw on screen.
+- Revisit automation only after ~10 delivered orders.
+
+## Resume protocol — how a future session picks up
+
+1. Read `CLAUDE.md` (this file), then `BUILD_GUIDE.md`.
+2. Check the launch-tasks table above for the next 🔲 task, and `git log --oneline -10` for what
+   actually shipped since this was written.
+3. Before changing anything, run `python -m pytest tests/ -v` (needs deps installed: `uv sync`,
+   or `pip install` the project; without them, ML/PDF tests fail on missing `joblib`/`crewai`/
+   `reportlab` — that's an env gap, not a regression).
+4. Honor the architecture rules above: constants in `settings.py`, frontend imports only from
+   `services/`, commit format `type: description`.
+5. After finishing a launch task, flip its row to ✅ with the commit hash and push to `main`
+   (Streamlit Cloud auto-deploys).

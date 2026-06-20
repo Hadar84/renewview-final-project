@@ -130,7 +130,11 @@ TERRAIN_COUNTRY_FALLBACK = {
 # ── Map Display ──────────────────────────────────────────────
 MAP_DEFAULT_ZOOM = 11
 MAP_DRAW_ZOOM = 15
-MAP_TILE_PROVIDER = "cartodbdark_matter"
+MAP_TILE_PROVIDER = (
+    "https://server.arcgisonline.com/ArcGIS/rest/services/"
+    "World_Imagery/MapServer/tile/{z}/{y}/{x}"
+)
+MAP_TILE_ATTR = "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
 
 # ── Model Training ──────────────────────────────────────────
 TRAIN_SPLIT = 0.70

@@ -19,6 +19,7 @@ from streamlit_folium import st_folium
 from renewview.config.settings import (
     ELEVATION_GRID_STEP_DEG,
     MAP_DEFAULT_ZOOM,
+    MAP_TILE_ATTR,
     MAP_TILE_PROVIDER,
     NASA_POWER_PARAMS,
     NOMINATIM_TIMEOUT,
@@ -271,6 +272,7 @@ def render_site_inputs(lang: str = "EN") -> dict:
         location=[latitude, longitude],
         zoom_start=MAP_DEFAULT_ZOOM,
         tiles=MAP_TILE_PROVIDER,
+        attr=MAP_TILE_ATTR,
     )
 
     folium.Marker(
